@@ -1,4 +1,4 @@
-package org.chdtu.model.entity;
+package edu.chdtu.model.entity;
 
 import javax.persistence.*;
 

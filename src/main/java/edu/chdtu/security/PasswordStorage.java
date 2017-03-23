@@ -1,4 +1,4 @@
-package org.chdtu.security;
+package edu.chdtu.security;
 
 
 import javax.crypto.SecretKeyFactory;

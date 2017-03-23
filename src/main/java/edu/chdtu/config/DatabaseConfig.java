@@ -1,4 +1,4 @@
-package org.chdtu.config;
+package edu.chdtu.config;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;

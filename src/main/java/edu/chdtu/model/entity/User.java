@@ -1,6 +1,6 @@
-package org.chdtu.model.entity;
+package edu.chdtu.model.entity;
 
-import org.chdtu.security.PasswordStorage;
+import edu.chdtu.security.PasswordStorage;
 
 import javax.persistence.*;
 
@@ -38,7 +38,7 @@ public class User {
 
     public Boolean verifyPassword(char[] password) {
         try {
-            return org.chdtu.security.PasswordStorage.verifyPassword(password, this.getHash());
+            return PasswordStorage.verifyPassword(password, this.getHash());
         } catch (PasswordStorage.CannotPerformOperationException e) {
             e.printStackTrace();
         } catch (PasswordStorage.InvalidHashException hashE) {
