@@ -1,11 +1,8 @@
-package org.chdtu.model;
+package org.chdtu.model.entity;
 
 import org.chdtu.security.PasswordStorage;
 
-import javax.persistence.Column;
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.GenerationType;
+import javax.persistence.*;
 
 /**
  * Created by Metr_yumora on 20.03.2017.
@@ -13,7 +10,7 @@ import javax.persistence.GenerationType;
 @Entity
 public class User {
 
-    @Column
+    @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Integer id;
 
@@ -25,6 +22,9 @@ public class User {
 
     @Column
     private String fullName;
+
+    public User() {
+    }
 
     public User(String email, String password, String fullName) {
         this.email = email;
