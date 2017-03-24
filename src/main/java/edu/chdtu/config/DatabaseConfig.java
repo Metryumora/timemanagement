@@ -18,7 +18,6 @@ import java.util.Properties;
  * Created by Metr_yumora on 04.12.2016.
  */
 
-
 @Configuration
 @EnableTransactionManagement
 public class DatabaseConfig {
