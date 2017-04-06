@@ -2,7 +2,6 @@ package edu.chdtu.service;
 
 import edu.chdtu.dao.GenericDao;
 import edu.chdtu.dao.UserDao;
-
 import edu.chdtu.model.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;

@@ -9,5 +9,5 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Repository
 @Transactional
-public class TimetableDaoImpl extends GenericDaoImpl<Timetable, Integer> implements TimetableDao{
+public class TimetableDaoImpl extends GenericDaoImpl<Timetable, Integer> implements TimetableDao {
 }

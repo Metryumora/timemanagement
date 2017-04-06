@@ -1,7 +1,9 @@
 package edu.chdtu.model.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
-import java.sql.Time;
+import java.util.Date;
 
 /**
  * Created by Metr_yumora on 23.03.2017.
@@ -13,17 +15,20 @@ public class DailyTimetable {
     private int Id;
 
     @Column
-    private Time startsWorking;
+    @Temporal(TemporalType.TIME)
+    private Date startsWorking;
 
     @Column
-    private Time endsWorking;
+    @Temporal(TemporalType.TIME)
+    private Date endsWorking;
 
     //Allows different intervals between appointments each day
     @Column
-    private short minutesForAppointment;
+    private Integer minutesForAppointment;
 
     //The place of appointment like an address
     @Column
+    @NotEmpty
     private String place;
 
     //Notes from specialist about this day's appointment
@@ -33,7 +38,7 @@ public class DailyTimetable {
     public DailyTimetable() {
     }
 
-    public DailyTimetable(Time startsWorking, Time endsWorking, short minutesForAppointment, String place, String notes) {
+    public DailyTimetable(Date startsWorking, Date endsWorking, Integer minutesForAppointment, String place, String notes) {
         this.startsWorking = startsWorking;
         this.endsWorking = endsWorking;
         this.minutesForAppointment = minutesForAppointment;
@@ -49,27 +54,27 @@ public class DailyTimetable {
         Id = id;
     }
 
-    public Time getStartsWorking() {
+    public Date getStartsWorking() {
         return startsWorking;
     }
 
-    public void setStartsWorking(Time startsWorking) {
+    public void setStartsWorking(Date startsWorking) {
         this.startsWorking = startsWorking;
     }
 
-    public Time getEndsWorking() {
+    public Date getEndsWorking() {
         return endsWorking;
     }
 
-    public void setEndsWorking(Time endsWorking) {
+    public void setEndsWorking(Date endsWorking) {
         this.endsWorking = endsWorking;
     }
 
-    public short getMinutesForAppointment() {
+    public Integer getMinutesForAppointment() {
         return minutesForAppointment;
     }
 
-    public void setMinutesForAppointment(short minutesForAppointment) {
+    public void setMinutesForAppointment(Integer minutesForAppointment) {
         this.minutesForAppointment = minutesForAppointment;
     }
 

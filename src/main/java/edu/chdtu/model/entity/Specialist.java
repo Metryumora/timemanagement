@@ -1,5 +1,7 @@
 package edu.chdtu.model.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 
 /**
@@ -12,9 +14,11 @@ public class Specialist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int Id;
 
+
     @ManyToOne(targetEntity = User.class)
     private User user;
 
+    @NotEmpty
     @Column
     private String specialization;
 
@@ -31,6 +35,22 @@ public class Specialist {
         this.user = user;
         this.specialization = specialization;
         this.department = department;
+        this.timetable = timetable;
+    }
+
+    public int getId() {
+        return Id;
+    }
+
+    public void setId(int id) {
+        Id = id;
+    }
+
+    public Timetable getTimetable() {
+        return timetable;
+    }
+
+    public void setTimetable(Timetable timetable) {
         this.timetable = timetable;
     }
 

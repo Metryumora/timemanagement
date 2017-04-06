@@ -1,5 +1,7 @@
 package edu.chdtu.model.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.sql.Date;
 import java.sql.Time;
@@ -14,18 +16,23 @@ public class UnregisteredAppointment {
     private int Id;
 
     @Column
+    @NotEmpty
     private String clientsFullName;
 
+    @NotEmpty
     @ManyToOne(targetEntity = Specialist.class)
     private Specialist specialist;
 
     @Column
+    @NotEmpty
     private Time startTime;
 
     @Column
+    @NotEmpty
     private Time endTime;
 
     @Column
+    @NotEmpty
     private Date date;
 
     public int getId() {

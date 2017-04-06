@@ -8,4 +8,5 @@ import edu.chdtu.model.entity.Appointment;
 
 
 public interface AppointmentDao extends GenericDao<Appointment,Integer> {
+
 }

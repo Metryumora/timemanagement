@@ -1,6 +1,8 @@
 package edu.chdtu.model.entity;
 
 import edu.chdtu.security.PasswordStorage;
+import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.stereotype.Controller;
 
 import javax.persistence.*;
 
@@ -15,20 +17,28 @@ public class User {
     private Integer id;
 
     @Column
+    @NotEmpty
     private String email;
 
     @Column
+    @NotEmpty
     private String hash;
 
     @Column
+    @NotEmpty
     private String fullName;
+
+    @Column
+    @NotEmpty
+    private String phone;
 
     public User() {
     }
 
-    public User(String email, String password, String fullName) {
+    public User(String email, String password, String fullName, String phone) {
         this.email = email;
         this.fullName = fullName;
+        this.phone = phone;
         try {
             this.hash = PasswordStorage.createHash(password);
         } catch (PasswordStorage.CannotPerformOperationException e) {
@@ -77,5 +87,13 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
+    }
+
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
     }
 }

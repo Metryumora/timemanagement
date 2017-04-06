@@ -1,7 +1,8 @@
 package edu.chdtu.model.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
-import java.sql.Time;
 
 /**
  * Created by Metr_yumora on 20.03.2017.
@@ -11,11 +12,13 @@ public class Organisation {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int id;
+    private Integer id;
 
+    @NotEmpty
     @Column
     private String name;
 
+    @NotEmpty
     @Column
     private String address;
 
@@ -25,7 +28,7 @@ public class Organisation {
     public Organisation() {
     }
 
-    public Organisation(String name, String address, Time startsWorking, Time endsWorking, short minutesForAppointment, User admin) {
+    public Organisation(String name, String address, User admin) {
         this.name = name;
         this.address = address;
         this.admin = admin;

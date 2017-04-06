@@ -1,9 +1,11 @@
 package edu.chdtu.model.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 import java.sql.Date;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.ArrayList;
+import java.util.List;
 
 /**
  * Created by Metr_yumora on 23.03.2017.
@@ -16,8 +18,9 @@ public class Timetable {
     private int Id;
 
     //Contains set of timetables for each day
+    @NotEmpty
     @OneToMany(targetEntity = DailyTimetable.class)
-    Set<DailyTimetable> timetables = new HashSet<>(7);
+    private List<DailyTimetable> timetables = new ArrayList<>(7);
 
     //At this day timetable will be allowed to work with
     @Column
@@ -31,7 +34,7 @@ public class Timetable {
     @Column
     private boolean allowUnregistered;
 
-    public Timetable(Set<DailyTimetable> timetables, Date applyingDate, Date expiringDate) {
+    public Timetable(List<DailyTimetable> timetables, Date applyingDate, Date expiringDate) {
         this.timetables = timetables;
         this.applyingDate = applyingDate;
         this.expiringDate = expiringDate;
@@ -48,12 +51,20 @@ public class Timetable {
         Id = id;
     }
 
-    public Set<DailyTimetable> getTimetables() {
+    public List<DailyTimetable> getTimetables() {
         return timetables;
     }
 
-    public void setTimetables(Set<DailyTimetable> timetables) {
+    public void setTimetables(List<DailyTimetable> timetables) {
         this.timetables = timetables;
+    }
+
+    public boolean isAllowUnregistered() {
+        return allowUnregistered;
+    }
+
+    public void setAllowUnregistered(boolean allowUnregistered) {
+        this.allowUnregistered = allowUnregistered;
     }
 
     public Date getApplyingDate() {

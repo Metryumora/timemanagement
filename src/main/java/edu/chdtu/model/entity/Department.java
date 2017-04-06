@@ -1,5 +1,7 @@
 package edu.chdtu.model.entity;
 
+import org.hibernate.validator.constraints.NotEmpty;
+
 import javax.persistence.*;
 
 /**
@@ -13,6 +15,7 @@ public class Department {
     private Integer id;
 
     @Column
+    @NotEmpty
     private String name;
 
     @ManyToOne(targetEntity = Organisation.class)
