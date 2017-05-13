@@ -12,8 +12,7 @@ public class Specialist {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    private int Id;
-
+    private int id;
 
     @ManyToOne(targetEntity = User.class)
     private User user;
@@ -39,11 +38,11 @@ public class Specialist {
     }
 
     public int getId() {
-        return Id;
+        return id;
     }
 
     public void setId(int id) {
-        Id = id;
+        this.id = id;
     }
 
     public Timetable getTimetable() {

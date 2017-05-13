@@ -2,7 +2,6 @@ package edu.chdtu.model.entity;
 
 import edu.chdtu.security.PasswordStorage;
 import org.hibernate.validator.constraints.NotEmpty;
-import org.springframework.stereotype.Controller;
 
 import javax.persistence.*;
 
@@ -57,6 +56,14 @@ public class User {
         return false;
     }
 
+    public String getPhone() {
+        return phone;
+    }
+
+    public void setPhone(String phone) {
+        this.phone = phone;
+    }
+
     public Integer getId() {
         return id;
     }
@@ -87,13 +94,5 @@ public class User {
 
     public void setFullName(String fullName) {
         this.fullName = fullName;
-    }
-
-    public String getPhone() {
-        return phone;
-    }
-
-    public void setPhone(String phone) {
-        this.phone = phone;
     }
 }

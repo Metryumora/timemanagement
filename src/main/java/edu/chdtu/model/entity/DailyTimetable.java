@@ -3,6 +3,7 @@ package edu.chdtu.model.entity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.sql.Time;
 import java.util.Date;
 
 /**
@@ -38,7 +39,7 @@ public class DailyTimetable {
     public DailyTimetable() {
     }
 
-    public DailyTimetable(Date startsWorking, Date endsWorking, Integer minutesForAppointment, String place, String notes) {
+    public DailyTimetable(Time startsWorking, Time endsWorking, Integer minutesForAppointment, String place, String notes) {
         this.startsWorking = startsWorking;
         this.endsWorking = endsWorking;
         this.minutesForAppointment = minutesForAppointment;

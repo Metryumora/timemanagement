@@ -1,7 +1,5 @@
 package edu.chdtu.model.entity;
 
-import org.hibernate.validator.constraints.NotEmpty;
-
 import javax.persistence.*;
 import java.sql.Date;
 
@@ -16,15 +14,12 @@ public class RearrangeRequest {
     private int Id;
 
     @ManyToOne(targetEntity = User.class)
-    @NotEmpty
     private User initiator;
 
     @ManyToOne(targetEntity = Appointment.class)
-    @NotEmpty
     private Appointment appointment;
 
     //Appointment will be rearranged to this date and time
-    @NotEmpty
     private Date newTime;
 
     //True means accepted, false means rejected, null means pending request
