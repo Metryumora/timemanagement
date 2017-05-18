@@ -14,3 +14,9 @@
     float: inherit;
     margin: 10px 30%;
 }
+
+.central {
+    margin: auto;
+    width: 300px;
+    float: left;
+}

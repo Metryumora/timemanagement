@@ -3,6 +3,8 @@ package edu.chdtu.model.entity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Metr_yumora on 22.03.2017.
@@ -20,6 +22,10 @@ public class Department {
 
     @ManyToOne(targetEntity = Organisation.class)
     private Organisation organisation;
+
+    @OneToMany(targetEntity = Specialist.class)
+    @JoinColumn(name = "department_id")
+    private Set<Specialist> specialists = new HashSet<>();
 
     public Integer getId() {
         return id;
@@ -43,6 +49,14 @@ public class Department {
 
     public void setOrganisation(Organisation organisation) {
         this.organisation = organisation;
+    }
+
+    public Set<Specialist> getSpecialists() {
+        return specialists;
+    }
+
+    public void setSpecialists(Set<Specialist> specialists) {
+        this.specialists = specialists;
     }
 
     public Department() {
