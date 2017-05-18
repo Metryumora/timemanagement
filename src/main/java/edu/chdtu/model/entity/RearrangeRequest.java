@@ -34,7 +34,6 @@ public class RearrangeRequest {
         this.status = status;
     }
 
-
     public int getId() {
         return Id;
     }

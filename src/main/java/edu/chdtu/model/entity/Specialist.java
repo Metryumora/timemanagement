@@ -3,6 +3,8 @@ package edu.chdtu.model.entity;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Created by Metr_yumora on 22.03.2017.
@@ -27,6 +29,10 @@ public class Specialist {
     @OneToOne(targetEntity = Timetable.class)
     private Timetable timetable;
 
+    @OneToMany(targetEntity = Appointment.class)
+    @JoinColumn(name = "specialist_id")
+    private Set<Appointment> appointments = new HashSet<>();
+
     public Specialist() {
     }
 
@@ -35,6 +41,14 @@ public class Specialist {
         this.specialization = specialization;
         this.department = department;
         this.timetable = timetable;
+    }
+
+    public Set<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Set<Appointment> appointments) {
+        this.appointments = appointments;
     }
 
     public int getId() {

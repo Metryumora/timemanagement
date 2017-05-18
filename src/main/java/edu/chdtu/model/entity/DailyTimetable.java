@@ -17,34 +17,50 @@ public class DailyTimetable {
 
     @Column
     @Temporal(TemporalType.TIME)
-    private Date startsWorking;
+    private Date workStarts;
 
     @Column
     @Temporal(TemporalType.TIME)
-    private Date endsWorking;
+    private Date workEnds;
+
+    @Column
+    @Temporal(TemporalType.TIME)
+    private Date breakStarts;
+
+    @Column
+    @Temporal(TemporalType.TIME)
+    private Date breakEnds;
 
     //Allows different intervals between appointments each day
     @Column
-    private Integer minutesForAppointment;
+    @Temporal(TemporalType.TIME)
+    private Date timeForAppointment;
 
     //The place of appointment like an address
     @Column
     @NotEmpty
     private String place;
 
-    //Notes from specialist about this day's appointment
+    //Notes from specialist about this day's appointments
     @Column
     private String notes;
 
     public DailyTimetable() {
     }
 
-    public DailyTimetable(Time startsWorking, Time endsWorking, Integer minutesForAppointment, String place, String notes) {
-        this.startsWorking = startsWorking;
-        this.endsWorking = endsWorking;
-        this.minutesForAppointment = minutesForAppointment;
+    public DailyTimetable(Time workStarts, Time workEnds, Time breakStarts, Time breakEnds, Time timeForAppointment, String place, String notes) {
+        this.workStarts = workStarts;
+        this.workEnds = workEnds;
+        this.breakStarts = breakStarts;
+        this.breakEnds = breakEnds;
+        this.timeForAppointment = timeForAppointment;
         this.place = place;
         this.notes = notes;
+    }
+
+    public Time getWorkingTime() {
+        Time result = new Time(workEnds.getTime() - workStarts.getTime());
+        return result;
     }
 
     public int getId() {
@@ -55,28 +71,28 @@ public class DailyTimetable {
         Id = id;
     }
 
-    public Date getStartsWorking() {
-        return startsWorking;
+    public Date getWorkStarts() {
+        return workStarts;
     }
 
-    public void setStartsWorking(Date startsWorking) {
-        this.startsWorking = startsWorking;
+    public void setWorkStarts(Date workStarts) {
+        this.workStarts = workStarts;
     }
 
-    public Date getEndsWorking() {
-        return endsWorking;
+    public Date getWorkEnds() {
+        return workEnds;
     }
 
-    public void setEndsWorking(Date endsWorking) {
-        this.endsWorking = endsWorking;
+    public void setWorkEnds(Date workEnds) {
+        this.workEnds = workEnds;
     }
 
-    public Integer getMinutesForAppointment() {
-        return minutesForAppointment;
+    public Date getTimeForAppointment() {
+        return timeForAppointment;
     }
 
-    public void setMinutesForAppointment(Integer minutesForAppointment) {
-        this.minutesForAppointment = minutesForAppointment;
+    public void setTimeForAppointment(Date timeForAppointment) {
+        this.timeForAppointment = timeForAppointment;
     }
 
     public String getPlace() {
@@ -93,5 +109,21 @@ public class DailyTimetable {
 
     public void setNotes(String notes) {
         this.notes = notes;
+    }
+
+    public Date getBreakStarts() {
+        return breakStarts;
+    }
+
+    public void setBreakStarts(Date breakStarts) {
+        this.breakStarts = breakStarts;
+    }
+
+    public Date getBreakEnds() {
+        return breakEnds;
+    }
+
+    public void setBreakEnds(Date breakEnds) {
+        this.breakEnds = breakEnds;
     }
 }

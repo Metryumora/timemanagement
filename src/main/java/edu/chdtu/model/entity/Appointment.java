@@ -34,6 +34,8 @@ public class Appointment {
         this.dateAndTime = dateAndTime;
     }
 
+
+
     public Integer getId() {
         return id;
     }

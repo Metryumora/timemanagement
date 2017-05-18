@@ -45,27 +45,27 @@
         </tr>
         <tr>
             <td>${spec.user.fullName}</td>
-            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(0).startsWorking}"/> -
+            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(0).workStarts}"/> -
                 <fmt:formatDate pattern="HH:mm" type="time"
-                                value="${spec.timetable.timetables.get(0).endsWorking}"/></td>
-            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(1).startsWorking}"/> -
+                                value="${spec.timetable.timetables.get(0).workEnds}"/></td>
+            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(1).workStarts}"/> -
                 <fmt:formatDate pattern="HH:mm" type="time"
-                                value="${spec.timetable.timetables.get(1).endsWorking}"/></td>
-            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(2).startsWorking}"/> -
+                                value="${spec.timetable.timetables.get(1).workEnds}"/></td>
+            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(2).workStarts}"/> -
                 <fmt:formatDate pattern="HH:mm" type="time"
-                                value="${spec.timetable.timetables.get(2).endsWorking}"/></td>
-            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(3).startsWorking}"/> -
+                                value="${spec.timetable.timetables.get(2).workEnds}"/></td>
+            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(3).workStarts}"/> -
                 <fmt:formatDate pattern="HH:mm" type="time"
-                                value="${spec.timetable.timetables.get(3).endsWorking}"/></td>
-            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(4).startsWorking}"/> -
+                                value="${spec.timetable.timetables.get(3).workEnds}"/></td>
+            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(4).workStarts}"/> -
                 <fmt:formatDate pattern="HH:mm" type="time"
-                                value="${spec.timetable.timetables.get(4).endsWorking}"/></td>
-            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(5).startsWorking}"/> -
+                                value="${spec.timetable.timetables.get(4).workEnds}"/></td>
+            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(5).workStarts}"/> -
                 <fmt:formatDate pattern="HH:mm" type="time"
-                                value="${spec.timetable.timetables.get(5).endsWorking}"/></td>
-            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(6).startsWorking}"/> -
+                                value="${spec.timetable.timetables.get(5).workEnds}"/></td>
+            <td><fmt:formatDate pattern="HH:mm" type="time" value="${spec.timetable.timetables.get(6).workStarts}"/> -
                 <fmt:formatDate pattern="HH:mm" type="time"
-                                value="${spec.timetable.timetables.get(6).endsWorking}"/></td>
+                                value="${spec.timetable.timetables.get(6).workEnds}"/></td>
         </tr>
     </c:forEach>
     </tbody>
@@ -74,11 +74,23 @@
 <table>
     <tr>
         <th>
-
+            Specialist
+        </th>
+        <th>
+            Client
+        </th>
+        <th>
+            Time
         </th>
     </tr>
     <tbody>
-
+<c:forEach items="${appointments}" var="appointment">
+    <tr>
+        <td>${appointment.specialist.user.fullName}</td>
+        <td>${appointment.client.fullName}</td>
+        <td><fmt:formatDate pattern="HH:mm" type="time" value="${appointment.dateAndTime}"/></td>
+    </tr>
+</c:forEach>
     </tbody>
 </table>
 </body>

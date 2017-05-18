@@ -47,8 +47,6 @@ public class Test {
     @Autowired
     OrganisationService organisationService;
 
-    Calendar calendar = Calendar.getInstance();
-
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView getHome(ModelMap modelMap) {
         return new ModelAndView("index");
@@ -56,9 +54,9 @@ public class Test {
 
     @RequestMapping(value = "/test", method = {RequestMethod.GET})
     public ModelAndView test(ModelMap modelMap) {
-        User admin = new User("metryumora@gmail.com", "password", "Валентин Тулуб","+380671841877");
+        User admin = new User("metryumora@gmail.com", "password", "Валентин Тулуб", "+380671841877");
         userService.add(admin);
-        User newUser = new User("spec@gmail.com", "pass", "Доктор Айболит","322223");
+        User newUser = new User("spec@gmail.com", "pass", "Доктор Айболит", "322223");
         userService.add(newUser);
         Organisation org = new Organisation("Test Facility", "Address", admin);
         organisationService.add(org);
@@ -69,7 +67,9 @@ public class Test {
             DailyTimetable dailyTimetable = new DailyTimetable(
                     new Time(8, 0, 0),
                     new Time(17, 0, 0),
-                    30,
+                    new Time(13, 0, 0),
+                    new Time(14, 0, 0),
+                    new Time(0, 30, 0),
                     "Room #10",
                     "Note");
             dailyTimetableService.add(dailyTimetable);
@@ -81,12 +81,12 @@ public class Test {
         }
         Timetable timetable = new Timetable(
                 timetableSet,
-                new Date(2017, 1, 1),
-                new Date(2017, 12, 31));
+                new Date(2017 - 1900, 1 - 1, 1),
+                new Date(2017 - 1900, 12 - 1, 31));
         timetableService.add(timetable);
         Specialist specialist = new Specialist(newUser, "Top specialist", dep, timetable);
         specialistService.add(specialist);
-        Appointment appointment = new Appointment(userService.get(1), specialist, calendar.getTime());
+        Appointment appointment = new Appointment(userService.get(1), specialist, Calendar.getInstance().getTime());
         appointmentService.add(appointment);
 
         return new ModelAndView("index");

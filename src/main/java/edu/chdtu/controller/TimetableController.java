@@ -1,9 +1,6 @@
 package edu.chdtu.controller;
 
-import edu.chdtu.model.entity.DailyTimetable;
-import edu.chdtu.model.entity.Department;
-import edu.chdtu.model.entity.Organisation;
-import edu.chdtu.model.entity.Specialist;
+import edu.chdtu.model.entity.*;
 import edu.chdtu.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -14,10 +11,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Metr_yumora on 15.05.2017.
@@ -50,6 +44,28 @@ public class TimetableController {
     @Autowired
     OrganisationService organisationService;
 
+    private List<Appointment> getAppointments(Specialist specialist, Date date) {
+        List<Appointment> result = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        DailyTimetable dailyTimetable = specialist.getTimetable().getTimetables().get(calendar.get(Calendar.DAY_OF_WEEK) - 2);
+        Date workEnds = (Date) date.clone();
+        Date appointmentDateAndTime = (Date) date.clone();
+
+        workEnds.setHours(dailyTimetable.getWorkEnds().getHours());
+        workEnds.setMinutes(dailyTimetable.getWorkEnds().getMinutes());
+
+        appointmentDateAndTime.setHours(dailyTimetable.getWorkStarts().getHours());
+        appointmentDateAndTime.setMinutes(dailyTimetable.getWorkStarts().getMinutes());
+
+        while (appointmentDateAndTime.before(workEnds)) {
+            result.add(new Appointment(null, specialist, (Date) appointmentDateAndTime.clone()));
+            appointmentDateAndTime.setTime(appointmentDateAndTime.getTime() + dailyTimetable.getTimeForAppointment().getMinutes() * 60000);
+        }
+
+        return result;
+    }
+
     @RequestMapping(value = "/organisations", method = {RequestMethod.GET})
     public ModelAndView showOrganisations(ModelMap modelMap) {
         ArrayList<Organisation> organisations = (ArrayList<Organisation>) organisationService.getAll();
@@ -77,16 +93,27 @@ public class TimetableController {
 
     @RequestMapping(value = "/appointments", method = {RequestMethod.GET})
     public ModelAndView showAppointments(ModelMap modelMap,
-                                         @RequestParam("spec") Integer specialistId,
-                                         @RequestParam("day") Integer day) {
+                                         @RequestParam("spec") Integer specialistId) {
         List<Organisation> organisations = organisationService.getAll();
         modelMap.addAttribute("organisations", organisations);
 
         Specialist specialist = specialistService.get(specialistId);
-        DailyTimetable dailyTimetable = specialist.getTimetable().getTimetables().get(day);
-//        Date maxAppointments = dailyTimetable.getEndsWorking().getHours()+dailyTimetable.getEndsWorking().getMinutes() - dailyTimetable.getStartsWorking();
-//                / dailyTimetable.getMinutesForAppointment();
-
+        ArrayList<Appointment> appointmentsSchema = (ArrayList<Appointment>) getAppointments(specialist, new Date());
+        ArrayList<Appointment> appointments = (ArrayList<Appointment>) appointmentService.get(new Date(), specialist);
+        int lastIndex = 0;
+        for (Appointment appointment :
+                appointments) {
+            for (int i = lastIndex; i < appointmentsSchema.size(); i++) {
+                if (appointment.getDateAndTime().getHours() == appointmentsSchema.get(i).getDateAndTime().getHours()
+                        && appointment.getDateAndTime().getMinutes() == appointmentsSchema.get(i).getDateAndTime().getMinutes()) {
+                    appointmentsSchema.remove(i);
+                    appointmentsSchema.add(i, appointment);
+                    lastIndex = i;
+                    break;
+                }
+            }
+        }
+        modelMap.addAttribute("appointments", appointmentsSchema);
         return new ModelAndView("timetable");
     }
 }
