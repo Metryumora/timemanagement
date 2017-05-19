@@ -48,21 +48,31 @@ public class TimetableController {
         List<Appointment> result = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        DailyTimetable dailyTimetable = specialist.getTimetable().getTimetables().get(calendar.get(Calendar.DAY_OF_WEEK) - 2);
+        DailyTimetable dailyTimetable = specialist.getTimetable().getTodaysTimetable();
         Date workEnds = (Date) date.clone();
         Date appointmentDateAndTime = (Date) date.clone();
+        Date breakStarts = (Date) date.clone();
+        breakStarts.setHours(dailyTimetable.getBreakStarts().getHours());
+        breakStarts.setMinutes(dailyTimetable.getBreakStarts().getMinutes() - 1);
+        Date breakEnds = (Date) date.clone();
+        breakEnds.setHours(dailyTimetable.getBreakEnds().getHours());
+        breakEnds.setMinutes(dailyTimetable.getBreakEnds().getMinutes() - 1);
 
         workEnds.setHours(dailyTimetable.getWorkEnds().getHours());
         workEnds.setMinutes(dailyTimetable.getWorkEnds().getMinutes());
+
 
         appointmentDateAndTime.setHours(dailyTimetable.getWorkStarts().getHours());
         appointmentDateAndTime.setMinutes(dailyTimetable.getWorkStarts().getMinutes());
 
         while (appointmentDateAndTime.before(workEnds)) {
+            if (appointmentDateAndTime.after(breakStarts) && appointmentDateAndTime.before(breakEnds)) {
+                appointmentDateAndTime.setTime(appointmentDateAndTime.getTime() + dailyTimetable.getTimeForAppointment().getMinutes() * 60000);
+                continue;
+            }
             result.add(new Appointment(null, specialist, (Date) appointmentDateAndTime.clone()));
             appointmentDateAndTime.setTime(appointmentDateAndTime.getTime() + dailyTimetable.getTimeForAppointment().getMinutes() * 60000);
         }
-
         return result;
     }
 

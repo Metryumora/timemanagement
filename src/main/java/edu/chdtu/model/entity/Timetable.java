@@ -5,7 +5,9 @@ import org.hibernate.validator.constraints.NotEmpty;
 import javax.persistence.*;
 import java.sql.Date;
 import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.List;
+import java.util.Locale;
 
 /**
  * Created by Metr_yumora on 23.03.2017.
@@ -33,6 +35,41 @@ public class Timetable {
     //Indicates whether it is possible to visit specialist without previous appointment
     @Column
     private boolean allowUnregistered;
+    int day;
+    public DailyTimetable getTodaysTimetable(){
+        switch (Calendar.getInstance().get(Calendar.DAY_OF_WEEK)) {
+            case Calendar.MONDAY: {
+                day = 0;
+                break;
+            }
+            case Calendar.TUESDAY: {
+                day = 1;
+                break;
+            }
+            case Calendar.WEDNESDAY: {
+                day = 2;
+                break;
+            }
+            case Calendar.THURSDAY: {
+                day = 3;
+                break;
+            }
+            case Calendar.FRIDAY: {
+                day = 4;
+                break;
+            }
+            case Calendar.SATURDAY: {
+                day = 5;
+                break;
+            }
+            case Calendar.SUNDAY: {
+                day = 6;
+                break;
+            }
+        }
+
+        return timetables.get(day);
+    }
 
     public Timetable(List<DailyTimetable> timetables, Date applyingDate, Date expiringDate) {
         this.timetables = timetables;
