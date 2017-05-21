@@ -93,7 +93,7 @@
     <div id="appointments">
         Specialist's name: ${appointments.get(0).specialist.user.fullName}<br>
         Address: ${appointments.get(0).specialist.department.organisation.address}<br>
-        Room: ${appointments.get(0).specialist.timetable.getTodaysTimetable().place}<br>
+        Room: ${appointments.get(0).specialist.timetable.getHodiernalTimetable().place}<br>
         <table>
             <tr>
                 <th>Client</th>

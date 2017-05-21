@@ -1,13 +1,13 @@
-table{
+table {
     border-collapse: collapse;
     margin: 10px;
 }
 
-th{
+th {
     border: 2px solid black;
 }
 
-td{
+td {
     border: 2px solid black;
 }
 

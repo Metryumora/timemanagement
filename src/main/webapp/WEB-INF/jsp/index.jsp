@@ -1,15 +1,20 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
+<%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+
+<c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Time-management: Home</title>
 
-    <link rel="stylesheet" href="../../../resources/static/css/bootstrap/css/bootstrap.min.css">
-    <link rel="stylesheet" href="../../../resources/static/css/style.css">
-    <link href="//maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
+    <%--<link rel="stylesheet" href="/static/css/bootstrap/css/bootstrap.min.css">--%>
+    <%--<link rel="stylesheet" href="/static/css/style.css">--%>
+    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
 
     <!--This is background-->
     <link rel="stylesheet" media="all"
-          href="//xfer-assets.s3.amazonaws.com/assets/application-183db160aec9c65aee73a1cf65198f90.css"/>
+          href="http://xfer-assets.s3.amazonaws.com/assets/application-183db160aec9c65aee73a1cf65198f90.css"/>
 
     <!--This is JS for header-->
     <!--<script src="//xfer-assets.s3.amazonaws.com/assets/application-653e9726a10c9e317ffaaf9402ad69b2.js"></script>-->
@@ -19,6 +24,7 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
+<body>
 <body>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -123,7 +129,8 @@
                                 <h3 class="panel-title">Please sign in</h3>
                             </div>
                             <div class="panel-body">
-                                <form accept-charset="UTF-8" role="form">
+                                <form accept-charset="UTF-8" role="form"
+                                      action="${contextPath}/login" method="post">
                                     <fieldset>
                                         <div class="form-group">
                                             <input required class="form-control" placeholder="E-mail" name="email"
@@ -133,11 +140,12 @@
                                             <input required class="form-control" placeholder="Password" name="password"
                                                    type="password" value="">
                                         </div>
-                                        <div class="checkbox">
-                                            <label>
-                                                <input name="remember" type="checkbox" value="Remember Me"> Remember Me
-                                            </label>
-                                        </div>
+                                        <%--<div class="checkbox">--%>
+                                        <%--<label>--%>
+                                        <%--<input name="remember" type="checkbox" value="Remember Me"> Remember Me--%>
+                                        <%--</label>--%>
+                                        <%--</div>--%>
+                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
                                     </fieldset>
                                 </form>
@@ -170,7 +178,8 @@
                                 <h3 class="panel-title">Please enter:</h3>
                             </div>
                             <div class="panel-body">
-                                <form accept-charset="UTF-8" role="form" method="post" action="/register">
+                                <form accept-charset="UTF-8" role="form" method="post"
+                                      action="${contextPath}/register">
                                     <fieldset>
                                         <div class="form-group">
                                             <input required class="form-control" placeholder="Your name" name="userName"
