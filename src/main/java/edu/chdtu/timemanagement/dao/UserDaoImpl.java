@@ -19,12 +19,13 @@ import javax.transaction.Transactional;
 @Transactional
 public class UserDaoImpl extends GenericDaoImpl<User, Integer> implements UserDao {
 
-    public User getByLogin(String login) {
+    public User getByEmail(String login) {
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> user = query.from(User.class);
         query.select(user).where(cb.like(user.get("email"), login));
         TypedQuery<User> typedQuery = entityManager.createQuery(query);
+        System.out.println("Login: " + login);
         return typedQuery.getSingleResult();
     }
 

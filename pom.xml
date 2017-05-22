@@ -6,7 +6,7 @@
     <groupId>org.chdtu</groupId>
     <artifactId>TimeManagement</artifactId>
     <version>0.0.1-SNAPSHOT</version>
-    <packaging>jar</packaging>
+    <packaging>war</packaging>
 
     <name>TimeManagement</name>
     <description></description>
@@ -67,6 +67,11 @@
     </dependencies>
 
     <build>
+        <resources>
+            <resource>
+                <directory>src/main/resources</directory>
+            </resource>
+        </resources>
         <plugins>
             <plugin>
                 <groupId>org.springframework.boot</groupId>

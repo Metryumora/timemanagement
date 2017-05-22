@@ -3,6 +3,9 @@ package edu.chdtu.timemanagement.controller;
 import edu.chdtu.timemanagement.model.User;
 import edu.chdtu.timemanagement.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpHeaders;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
@@ -20,7 +23,7 @@ public class UserController {
     @Autowired
     private UserService userService;
 
-    @Secured({"ROLE_USER"})
+    //    @Secured({"ROLE_USER"})
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView home(ModelMap modelMap) {
         return new ModelAndView("index");
@@ -47,12 +50,15 @@ public class UserController {
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET})
     public ModelAndView showLogin(ModelMap modelMap) {
-        return new ModelAndView("index");
+        return new ModelAndView("login");
     }
-//
-//    @RequestMapping(value = "/login", method = {RequestMethod.POST})
-//    public ModelAndView login(ModelMap modelMap) {
-//        return new ModelAndView("index");
-//    }
+
+    @Secured("ROLE_USER")
+    @RequestMapping("/loginSuccess")
+    public ResponseEntity<String> loginSuccess() {
+        HttpHeaders responseHeaders = new HttpHeaders();
+        responseHeaders.set("url", "/");
+        return new ResponseEntity<String>("Success", responseHeaders, HttpStatus.OK);
+    }
 
 }

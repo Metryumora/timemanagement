@@ -38,7 +38,13 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-        http.formLogin().loginProcessingUrl("/login").usernameParameter("email").passwordParameter("password").and().logout()
-                .logoutSuccessUrl("/");
+
+        http.formLogin()
+                .loginPage("/login")
+                .loginProcessingUrl("/login")
+                .usernameParameter("email")
+                .passwordParameter("password")
+                .isCustomLoginPage();
+        //.and().logout().logoutSuccessUrl("/");
     }
 }

@@ -8,7 +8,7 @@ import edu.chdtu.timemanagement.model.User;
 
 public interface UserDao extends GenericDao<User, Integer> {
 
-    User getByLogin(String login);
+    User getByEmail(String email);
 
     Integer register(User entity);
 

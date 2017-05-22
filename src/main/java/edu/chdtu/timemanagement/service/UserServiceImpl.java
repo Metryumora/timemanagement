@@ -3,6 +3,7 @@ package edu.chdtu.timemanagement.service;
 import edu.chdtu.timemanagement.dao.GenericDao;
 import edu.chdtu.timemanagement.dao.RoleDao;
 import edu.chdtu.timemanagement.dao.UserDao;
+import edu.chdtu.timemanagement.model.Role;
 import edu.chdtu.timemanagement.model.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Qualifier;
@@ -15,9 +16,10 @@ import org.springframework.stereotype.Service;
 @Service
 public class UserServiceImpl extends GenericServiceImpl<User, Integer> implements UserService {
 
+    @Autowired
     private UserDao userDao;
 
-
+    @Autowired
     private RoleDao roleDao;
 
     @Autowired
@@ -27,13 +29,14 @@ public class UserServiceImpl extends GenericServiceImpl<User, Integer> implement
     }
 
     public User getByLogin(String login) {
-        return userDao.getByLogin(login);
+        return userDao.getByEmail(login);
     }
 
 
     @Override
     public void add(User user) {
-        user.getRoles().add(roleDao.find(1));
+        Role defaultRole = roleDao.find(1);
+        user.getRoles().add(defaultRole);
         super.add(user);
     }
 }
