@@ -3,6 +3,8 @@ package edu.chdtu.timemanagement.controller;
 import edu.chdtu.timemanagement.model.*;
 import edu.chdtu.timemanagement.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
+import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -16,6 +18,7 @@ import java.util.*;
  * Created by Metr_yumora on 15.05.2017.
  */
 @Controller
+@EnableAutoConfiguration
 public class TimetableController {
 
     @Autowired
@@ -42,7 +45,7 @@ public class TimetableController {
     @Autowired
     private OrganisationService organisationService;
 
-    public ArrayList<Appointment> getAppointmentsSchema(Specialist specialist, Date date) {
+    private ArrayList<Appointment> getAppointmentsSchema(Specialist specialist, Date date) {
         ArrayList<Appointment> result = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);

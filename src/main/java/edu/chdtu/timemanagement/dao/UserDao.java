@@ -10,6 +10,4 @@ public interface UserDao extends GenericDao<User, Integer> {
 
     User getByEmail(String email);
 
-    Integer register(User entity);
-
 }

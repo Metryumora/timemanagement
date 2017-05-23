@@ -1,6 +1,5 @@
 package edu.chdtu.timemanagement.model;
 
-import edu.chdtu.timemanagement.security.PasswordStorage;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -23,7 +22,10 @@ public class User {
 
     @Column
     @NotEmpty
-    private String passwordHash;
+    private String password;
+
+    @Transient
+    private String confirmPassword;
 
     @Column
     @NotEmpty
@@ -45,33 +47,22 @@ public class User {
         this.email = email;
         this.fullName = fullName;
         this.phone = phone;
-        try {
-            this.passwordHash = PasswordStorage.createHash(password);
-        } catch (PasswordStorage.CannotPerformOperationException e) {
-            e.printStackTrace();
-        }
+        this.password = password;
     }
 
     public User(String email, String password, String fullName, String phone, Set<Role> roles) {
         this.email = email;
         this.fullName = fullName;
         this.phone = phone;
-        try {
-            this.passwordHash = PasswordStorage.createHash(password);
-        } catch (PasswordStorage.CannotPerformOperationException e) {
-            e.printStackTrace();
-        }
         this.roles.addAll(roles);
     }
 
-    public Boolean verifyPassword(char[] password) {
-        try {
-            return PasswordStorage.verifyPassword(password, this.getPasswordHash());
-        } catch (PasswordStorage.CannotPerformOperationException | PasswordStorage.InvalidHashException e) {
+    public String getConfirmPassword() {
+        return confirmPassword;
+    }
 
-            e.printStackTrace();
-        }
-        return false;
+    public void setConfirmPassword(String confirmPassword) {
+        this.confirmPassword = confirmPassword;
     }
 
     public Set<Role> getRoles() {
@@ -106,12 +97,12 @@ public class User {
         this.email = email;
     }
 
-    public String getPasswordHash() {
-        return passwordHash;
+    public String getPassword() {
+        return password;
     }
 
-    public void setPasswordHash(String passwordHash) {
-        this.passwordHash = passwordHash;
+    public void setPassword(String password) {
+        this.password = password;
     }
 
     public String getFullName() {

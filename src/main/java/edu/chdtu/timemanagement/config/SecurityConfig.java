@@ -1,6 +1,5 @@
 package edu.chdtu.timemanagement.config;
 
-import edu.chdtu.timemanagement.security.CustomPasswordEncoder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.Bean;
 import org.springframework.context.annotation.ComponentScan;
@@ -11,6 +10,8 @@ import org.springframework.security.config.annotation.method.configuration.Enabl
 import org.springframework.security.config.annotation.web.builders.HttpSecurity;
 import org.springframework.security.config.annotation.web.configuration.WebSecurityConfigurerAdapter;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
+import org.springframework.security.crypto.password.PasswordEncoder;
 
 /**
  * Created by Metr_yumora on 21.05.2017.
@@ -23,28 +24,37 @@ public class SecurityConfig extends WebSecurityConfigurerAdapter {
     @Autowired
     private UserDetailsService userDetailsService;
 
+    @Bean
+    public PasswordEncoder passwordEncoder() {
+        return new BCryptPasswordEncoder();
+    }
+
     @Autowired
-    public void configAuthentication(AuthenticationManagerBuilder auth) throws Exception {
-        auth.userDetailsService(userDetailsService);
+    public void configureGlobal(AuthenticationManagerBuilder auth) throws Exception {
+        auth.userDetailsService(userDetailsService).passwordEncoder(passwordEncoder());
     }
 
     @Bean
     public DaoAuthenticationProvider authProvider() {
         DaoAuthenticationProvider authProvider = new DaoAuthenticationProvider();
         authProvider.setUserDetailsService(userDetailsService);
-        authProvider.setPasswordEncoder(new CustomPasswordEncoder());
+        authProvider.setPasswordEncoder(passwordEncoder());
         return authProvider;
     }
 
     @Override
     protected void configure(HttpSecurity http) throws Exception {
-
-        http.formLogin()
-                .loginPage("/login")
+        http
+                .formLogin().loginPage("/login")
                 .loginProcessingUrl("/login")
-                .usernameParameter("email")
                 .passwordParameter("password")
-                .isCustomLoginPage();
-        //.and().logout().logoutSuccessUrl("/");
+                .usernameParameter("email")
+                .failureUrl("/login?error")
+                .and()
+                .logout()
+                .logoutSuccessUrl("/login?logout")
+                .and()
+                .csrf().disable()
+        ;
     }
 }

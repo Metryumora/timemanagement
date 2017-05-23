@@ -10,8 +10,7 @@ import org.springframework.transaction.annotation.Transactional;
  */
 @Service
 @Repository
-@Transactional
 public interface UserService extends GenericService<User, Integer> {
 
-    User getByLogin(String login);
+    User getByEmail(String login);
 }

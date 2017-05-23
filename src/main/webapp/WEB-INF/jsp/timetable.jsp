@@ -17,7 +17,7 @@
     <script src="/js/selectorManagement.js"></script>
 </head>
 <body>
-
+Welcome, ${loggedInUser}!
 <select onchange="redirectTo(this.id)" id="select1">
     <option selected hidden></option>
     <c:forEach items="${organisations}" var="org">

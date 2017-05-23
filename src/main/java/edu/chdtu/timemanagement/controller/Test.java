@@ -47,9 +47,16 @@ public class Test {
     @Autowired
     private OrganisationService organisationService;
 
+    @Autowired
+    private RoleService roleService;
+
 
     @RequestMapping(value = "/test", method = {RequestMethod.GET})
     public ModelAndView test(ModelMap modelMap) {
+        Role role1 = new Role("ROLE_USER");
+        Role role2 = new Role("ROLE_ADMIN");
+        roleService.add(role1);
+        roleService.add(role2);
         User admin = new User("metryumora@gmail.com", "password", "Валентин Тулуб", "+380671841877");
         userService.add(admin);
         User newUser = new User("spec@gmail.com", "pass", "Доктор Айболит", "322223");
