@@ -61,14 +61,26 @@
 
             <!-- right side -->
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="/login">Log in</a>
-                </li>
-                <li>
-                    <a href="/registration">Sign up</a>
-                </li>
+                <c:choose>
+                    <c:when test="${currentUser!=null}">
+                        Welcome, ${currentUser.fullName}!
+                        <li>
+                            <a href="/logout">Log out</a>
+                        </li>
+                    </c:when>
+                    <c:otherwise>
+                        <li>
+                            <a href="/login">Log in</a>
+                        </li>
+                        <li>
+                            <a href="/registration">Sign up</a>
+                        </li>
+                    </c:otherwise>
+                </c:choose>
+
             </ul>
         </div>
+
     </div>
 </nav>
 
@@ -105,9 +117,6 @@
 
 <div class="index_content">
     <div class="central">
-        <c:if test="${currentUser!=null}">
-            Welcome, ${currentUser.fullName}!
-        </c:if>
         <h2>Please choose what you want to do:</h2>
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_log">Login</button>
