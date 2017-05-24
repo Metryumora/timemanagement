@@ -33,6 +33,7 @@ public class UserController {
 
     @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView home(ModelMap modelMap) {
+        modelMap.addAttribute("currentUser", securityService.findLoggedInUser());
         return new ModelAndView("index");
     }
 
@@ -56,6 +57,12 @@ public class UserController {
         model.addAttribute("userForm", new User());
 
         return "registration";
+    }
+
+    @RequestMapping(value = "/loginSuccess", method = RequestMethod.GET)
+    public ModelAndView authUser(ModelMap modelMap) {
+        modelMap.addAttribute("currentUser", securityService.findLoggedInUser());
+        return new ModelAndView("redirect:/organisations", modelMap);
     }
 
     @RequestMapping(value = "/login", method = {RequestMethod.GET})

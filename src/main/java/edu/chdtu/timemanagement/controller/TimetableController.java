@@ -4,7 +4,6 @@ import edu.chdtu.timemanagement.model.*;
 import edu.chdtu.timemanagement.service.*;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
-import org.springframework.security.access.annotation.Secured;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.web.bind.annotation.RequestMapping;
@@ -81,16 +80,14 @@ public class TimetableController {
     public ModelAndView showOrganisations(ModelMap modelMap) {
         ArrayList<Organisation> organisations = (ArrayList<Organisation>) organisationService.getAll();
         modelMap.addAttribute("organisations", organisations);
-        return new ModelAndView("timetable");
+        return new ModelAndView("timetable", modelMap);
     }
 
     @RequestMapping(value = "/departments", method = {RequestMethod.GET})
     public ModelAndView showDepartments(ModelMap modelMap, @RequestParam("org") Integer organisationId) {
-        List<Organisation> organisations = organisationService.getAll();
         Set<Department> departments = organisationService.get(organisationId).getDepartments();
         modelMap.addAttribute("departments", departments);
-        modelMap.addAttribute("organisations", organisations);
-        return new ModelAndView("timetable");
+        return new ModelAndView("timetable", modelMap);
     }
 
     @RequestMapping(value = "/specialists", method = {RequestMethod.GET})
@@ -98,8 +95,7 @@ public class TimetableController {
         List<Organisation> organisations = organisationService.getAll();
         Set<Specialist> specialists = departmentService.get(departmentId).getSpecialists();
         modelMap.addAttribute("specialists", specialists);
-        modelMap.addAttribute("organisations", organisations);
-        return new ModelAndView("timetable");
+        return new ModelAndView("timetable", modelMap);
     }
 
     @RequestMapping(value = "/appointments", method = {RequestMethod.GET})

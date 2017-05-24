@@ -1,6 +1,5 @@
 package edu.chdtu.timemanagement.service;
 
-import edu.chdtu.timemanagement.model.User;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -30,20 +29,12 @@ public class SecurityServiceImpl implements edu.chdtu.timemanagement.service.Sec
 
     @Override
     public String findLoggedInUsername() {
-        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        if (userDetails instanceof UserDetails) {
-            return ((UserDetails) userDetails).getUsername();
-        }
-        return null;
+        return SecurityContextHolder.getContext().getAuthentication().getName();
     }
 
     @Override
-    public User findLoggedInUser() {
-        Object userDetails = SecurityContextHolder.getContext().getAuthentication().getDetails();
-        if (userDetails instanceof UserDetails) {
-            return userService.getByEmail(((UserDetails) userDetails).getUsername());
-        }
-        return null;
+    public edu.chdtu.timemanagement.model.User findLoggedInUser() {
+        return userService.getByEmail(SecurityContextHolder.getContext().getAuthentication().getName());
     }
 
     @Override

@@ -42,31 +42,30 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class=""><a href="/">Time management</a></li>
-                <%--<li class=""><a href="/forums">Forums</a></li>--%>
 
-                <%--<li class="dropdown">--%>
-                <%--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">--%>
-                <%--Products <span class="caret"></span>--%>
-                <%--</a>--%>
-                <%--<ul class="dropdown-menu" role="menu">--%>
-                <%--<li class=""><a href="/serum">Serum</a></li>--%>
-                <%--<li class=""><a href="/preset_packs">Serum Presets</a></li>--%>
-                <%--<li class=""><a href="/nerve">Nerve</a></li>--%>
-                <%--<li class=""><a href="/cthulhu">Cthulhu</a></li>--%>
-                <%--<li class=""><a href="/lfotool">LFO Tool</a></li>--%>
-                <%--</ul>--%>
-                <%--</li>--%>
+
+                <li class="dropdown">
+                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                        Products <span class="caret"></span>
+                    </a>
+                    <ul class="dropdown-menu" role="menu">
+                        <li class=""><a href="/organisations">Organisations</a></li>
+                        <li class=""><a href="/departments">Departments</a></li>
+                        <li class=""><a href="/specialists">Specialists</a></li>
+                    </ul>
+                </li>
 
                 <li class=""><a href="/contact">Contact</a></li>
+
             </ul>
 
             <!-- right side -->
             <ul class="nav navbar-nav navbar-right">
                 <li>
-                    <a href="/users/sign_in">Sign in</a>
+                    <a href="/login">Log in</a>
                 </li>
                 <li>
-                    <a href="/users/sign_up">Sign up</a>
+                    <a href="/registration">Sign up</a>
                 </li>
             </ul>
         </div>
@@ -106,6 +105,9 @@
 
 <div class="index_content">
     <div class="central">
+        <c:if test="${currentUser!=null}">
+            Welcome, ${currentUser.fullName}!
+        </c:if>
         <h2>Please choose what you want to do:</h2>
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_log">Login</button>
