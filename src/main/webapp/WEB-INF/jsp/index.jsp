@@ -24,7 +24,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-<body>
+    <link rel="stylesheet" src="/css/style.css">
+
 <body>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -61,12 +62,29 @@
 
             <!-- right side -->
             <ul class="nav navbar-nav navbar-right">
-                <li>
-                    <a href="/login">Log in</a>
-                </li>
-                <li>
-                    <a href="/registration">Sign up</a>
-                </li>
+                <c:if test="${currentUser==null}">
+                    <li>
+                        <a href="/login">Log in</a>
+                    </li>
+                    <li>
+                        <a href="/registration">Sign up</a>
+                    </li>
+                </c:if>
+                <c:if test="${currentUser!=null}">
+                    <li class="dropdown">
+                        <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
+                            Welcome, ${currentUser.fullName}! <span class="caret"></span>
+                        </a>
+                        <ul class="dropdown-menu" role="menu">
+                            <li class=""><a href="/#">Settings</a></li>
+                            <li class=""><a href="/#">azaza</a></li>
+                            <li class=""><a href="/logout">Log out</a></li>
+                        </ul>
+                    </li>
+                    <li>
+                        <a href="/logout">Log out</a>
+                    </li>
+                </c:if>
             </ul>
         </div>
     </div>
@@ -104,15 +122,14 @@
 <!-- Content    --->
 
 <div class="index_content">
-    <div class="central">
-        <c:if test="${currentUser!=null}">
-            Welcome, ${currentUser.fullName}!
-        </c:if>
+    <div class="content_index">
+
         <h2>Please choose what you want to do:</h2>
         <!-- Trigger the modal with a button -->
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_log">Login</button>
         <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_reg">Registration
         </button>
+
 
         <!-- Modal login-->
         <div class="modal fade" id="modal_log" role="dialog">
@@ -147,7 +164,6 @@
                                         <%--<input name="remember" type="checkbox" value="Remember Me"> Remember Me--%>
                                         <%--</label>--%>
                                         <%--</div>--%>
-                                        <input type="hidden" name="${_csrf.parameterName}" value="${_csrf.token}"/>
                                         <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
                                     </fieldset>
                                 </form>

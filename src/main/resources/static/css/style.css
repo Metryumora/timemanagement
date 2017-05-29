@@ -7,6 +7,10 @@
 /*!*background-color: darkgrey;*!*/
 /*!*}*!*/
 
+.content_index {
+    background-color: yellow;
+}
+
 .index_content {
     border: 1px solid red;
     /*position: relative;*/
