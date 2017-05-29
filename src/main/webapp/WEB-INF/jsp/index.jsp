@@ -24,7 +24,8 @@
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
 
-    <link rel="stylesheet" src="/css/style.css">
+    <link rel="stylesheet" href="/css/style.css">
+    <link>
 
 <body>
 
@@ -90,153 +91,31 @@
     </div>
 </nav>
 
-<%--<div class="index_content">--%>
-<%--<div id="carouselExampleIndicators" class="carousel slide" data-ride="carousel">--%>
-<%--<ol class="carousel-indicators">--%>
-<%--<li data-target="#carouselExampleIndicators" data-slide-to="0" class="active"></li>--%>
-<%--<li data-target="#carouselExampleIndicators" data-slide-to="1"></li>--%>
-<%--<li data-target="#carouselExampleIndicators" data-slide-to="2"></li>--%>
-<%--</ol>--%>
-<%--<div class="carousel-inner" role="listbox">--%>
-<%--<div class="carousel-item active">--%>
-<%--<img class="d-block img-fluid" src="..." alt="First slide">--%>
-<%--</div>--%>
-<%--<div class="carousel-item">--%>
-<%--<img class="d-block img-fluid" src="..." alt="Second slide">--%>
-<%--</div>--%>
-<%--<div class="carousel-item">--%>
-<%--<img class="d-block img-fluid" src="..." alt="Third slide">--%>
-<%--</div>--%>
-<%--</div>--%>
-<%--<a class="carousel-control-prev" href="#carouselExampleIndicators" role="button" data-slide="prev">--%>
-<%--<span class="carousel-control-prev-icon" aria-hidden="true"></span>--%>
-<%--<span class="sr-only">Previous</span>--%>
-<%--</a>--%>
-<%--<a class="carousel-control-next" href="#carouselExampleIndicators" role="button" data-slide="next">--%>
-<%--<span class="carousel-control-next-icon" aria-hidden="true"></span>--%>
-<%--<span class="sr-only">Next</span>--%>
-<%--</a>--%>
-<%--</div>--%>
-<%--</div>--%>
-
 <!-- Content    --->
 
 <div class="index_content">
-    <div class="content_index">
+    <h2>Welcome to Time Management App :)</h2>
+    <h4>There we can view our information</h4>
 
-        <h2>Please choose what you want to do:</h2>
-        <!-- Trigger the modal with a button -->
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_log">Login</button>
-        <button type="button" class="btn btn-info btn-lg" data-toggle="modal" data-target="#modal_reg">Registration
-        </button>
+    <div class="selector_wrapper">
+        <div class="selector_description">Select department:</div>
+        <select name="faculty" class="selector" onchange="do_something();">
+            <option value="0"> One</option>
+        </select>
+    </div>
 
+    <div class="selector_wrapper">
+        <div class="selector_description">Select department:</div>
+        <select name="faculty" class="selector" onchange="do_something();">
+            <option value="0"> One</option>
+        </select>
+    </div>
 
-        <!-- Modal login-->
-        <div class="modal fade" id="modal_log" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Login</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Please sign in</h3>
-                            </div>
-                            <div class="panel-body">
-                                <form accept-charset="UTF-8" role="form"
-                                      action="${contextPath}/login" method="post">
-                                    <fieldset>
-                                        <div class="form-group">
-                                            <input required class="form-control" placeholder="E-mail" name="email"
-                                                   type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <input required class="form-control" placeholder="Password" name="password"
-                                                   type="password" value="">
-                                        </div>
-                                        <%--<div class="checkbox">--%>
-                                        <%--<label>--%>
-                                        <%--<input name="remember" type="checkbox" value="Remember Me"> Remember Me--%>
-                                        <%--</label>--%>
-                                        <%--</div>--%>
-                                        <input class="btn btn-lg btn-success btn-block" type="submit" value="Login">
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
-
-        <!-- Modal registration-->
-        <div class="modal fade" id="modal_reg" role="dialog">
-            <div class="modal-dialog">
-
-                <!-- Modal content-->
-                <div class="modal-content">
-                    <div class="modal-header">
-                        <button type="button" class="close" data-dismiss="modal">&times;</button>
-                        <h4 class="modal-title">Registration</h4>
-                    </div>
-                    <div class="modal-body">
-
-                        <div class="panel panel-default">
-                            <div class="panel-heading">
-                                <h3 class="panel-title">Please enter:</h3>
-                            </div>
-                            <div class="panel-body">
-                                <form accept-charset="UTF-8" role="form" method="post"
-                                      action="${contextPath}/register">
-                                    <fieldset>
-                                        <div class="form-group">
-                                            <input required class="form-control" placeholder="Your name" name="userName"
-                                                   type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <input required class="form-control" placeholder="Contact phone"
-                                                   name="phone"
-                                                   type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <input required class="form-control" placeholder="E-mail" name="email"
-                                                   type="text">
-                                        </div>
-                                        <div class="form-group">
-                                            <input required class="form-control" placeholder="Password" name="password"
-                                                   type="password" value="">
-                                        </div>
-                                        <div class="form-group">
-                                            <input required class="form-control" placeholder="Confirm password"
-                                                   name="password_confirm"
-                                                   type="password" value="">
-                                        </div>
-
-                                        <input class="btn btn-lg btn-success btn-block" type="submit"
-                                               value="Registration">
-                                    </fieldset>
-                                </form>
-                            </div>
-                        </div>
-
-                    </div>
-                    <div class="modal-footer">
-                        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                    </div>
-                </div>
-
-            </div>
-        </div>
+    <div class="selector_wrapper">
+        <div class="selector_description">Select specialist:</div>
+        <select name="faculty" class="selector" onchange="do_something();">
+            <option value="0"> Oneeeeeeeeeeeeeeeeeeee</option>
+        </select>
     </div>
 </div>
 
