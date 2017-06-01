@@ -1,14 +1,5 @@
-/*.body {*/
-/*margin: 0;*/
-/*}*/
-
-/*!*.wrapper {*!*/
-/*!*height: 100vh; !* высота секции равна высоте области просмотра *!*!*/
-/*!*background-color: darkgrey;*!*/
-/*!*}*!*/
-
 .index_content {
-    border: 1px solid red;
+    /*border: 1px solid red;
     /*position: relative;*/
     display: block;
     float: inherit;

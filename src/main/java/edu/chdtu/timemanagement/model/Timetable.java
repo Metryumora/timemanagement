@@ -1,5 +1,6 @@
 package edu.chdtu.timemanagement.model;
 
+import edu.chdtu.timemanagement.util.DateConverter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -43,59 +44,11 @@ public class Timetable {
     }
 
     public DailyTimetable getSpecificDayTimetable(DayOfWeek dayOfWeek) {
-        switch (dayOfWeek) {
-            case MONDAY: {
-                return timetables.get(0);
-            }
-            case TUESDAY: {
-                return timetables.get(1);
-            }
-            case WEDNESDAY: {
-                return timetables.get(2);
-            }
-            case THURSDAY: {
-                return timetables.get(3);
-            }
-            case FRIDAY: {
-                return timetables.get(4);
-            }
-            case SATURDAY: {
-                return timetables.get(5);
-            }
-            case SUNDAY: {
-                return timetables.get(6);
-            }
-            default:
-                return null;
-        }
+        return timetables.get(DateConverter.getDayOfWeek(dayOfWeek));
     }
 
     public DailyTimetable getSpecificDayTimetable(Calendar calendar) {
-        switch (calendar.get(Calendar.DAY_OF_WEEK)) {
-            case Calendar.MONDAY: {
-                return timetables.get(0);
-            }
-            case Calendar.TUESDAY: {
-                return timetables.get(1);
-            }
-            case Calendar.WEDNESDAY: {
-                return timetables.get(2);
-            }
-            case Calendar.THURSDAY: {
-                return timetables.get(3);
-            }
-            case Calendar.FRIDAY: {
-                return timetables.get(4);
-            }
-            case Calendar.SATURDAY: {
-                return timetables.get(5);
-            }
-            case Calendar.SUNDAY: {
-                return timetables.get(6);
-            }
-            default:
-                return null;
-        }
+        return timetables.get(DateConverter.getDayOfWeek(calendar));
     }
 
     public DailyTimetable getHodiernalTimetable() {

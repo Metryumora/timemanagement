@@ -20,4 +20,9 @@ public class DepartmentServiceImpl extends GenericServiceImpl<Department, Intege
         super(genericDao);
         this.departmentDao = (DepartmentDao) genericDao;
     }
+
+    @Override
+    public Department getByName(String name) {
+        return departmentDao.getByName(name);
+    }
 }

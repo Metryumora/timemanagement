@@ -21,4 +21,8 @@ public class OrganisationServiceImpl extends GenericServiceImpl<Organisation, In
         this.organisationDao = (OrganisationDao) genericDao;
     }
 
+    @Override
+    public Organisation getByName(String name) {
+        return organisationDao.getByName(name);
+    }
 }

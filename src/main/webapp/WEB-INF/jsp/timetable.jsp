@@ -18,18 +18,61 @@
 </head>
 <body>
 Welcome, ${currentUser.fullName}!
-<select onchange="redirectTo(this.id)" id="select1">
-    <option selected hidden></option>
-    <c:forEach items="${organisations}" var="org">
-        <option value="/departments?org=${org.id}">${org.name}</option>
-    </c:forEach>
-</select>
-<select onchange="redirectTo(this.id)" id="select2">
-    <option selected hidden></option>
-    <c:forEach items="${departments}" var="dep">
-        <option value="/specialists?dep=${dep.id}">${dep.name}</option>
-    </c:forEach>
-</select>
+
+<script src="/js/formSubmitter.js">
+
+</script>
+
+<form name="formSelectors" action="" method="post">
+    <select name="selectedOrganisation" onchange="submitForm(1)">
+        <c:if test="${selctedOrganisation == null}">
+            <option selected disabled></option>
+        </c:if>
+        <c:forEach items="${organisations}" varStatus="loop" var="org">
+            <option
+                    value="${org.id}"
+                    <c:if test="${org.id == selectedOrganisation}">
+                        selected
+                    </c:if>
+            >
+                    ${org.name}
+            </option>
+        </c:forEach>
+    </select>
+    <br>
+    <select name="selectedDepartment" onchange="submitForm(2)">
+        <c:if test="${selectedDepartment == null}">
+            <option selected disabled></option>
+        </c:if>
+        <c:forEach items="${departments}" varStatus="loop" var="dep">
+            <option
+                    value="${dep.id}"
+                    <c:if test="${dep.id == selectedDepartment}">
+                        selected
+                    </c:if>
+            >
+                    ${dep.name}
+            </option>
+        </c:forEach>
+    </select>
+    <br>
+    <select name="selectedSpecialist" onchange="submitForm(3)">
+        <c:if test="${selectedSpecialist == null}">
+            <option selected disabled></option>
+        </c:if>
+        <c:forEach items="${specialists}" varStatus="loop" var="spec">
+            <option
+                    value="${spec.id}"
+                    <c:if test="${spec.id == selectedSpecialist}">
+                        selected
+                    </c:if>
+            >
+                    ${spec.user.fullName}
+            </option>
+        </c:forEach>
+    </select>
+</form>
+
 <c:if test="${!empty specialists}">
     <div id="timetable">
         <table>
@@ -45,44 +88,15 @@ Welcome, ${currentUser.fullName}!
             </tr>
             <tbody>
             <c:forEach items="${specialists}" var="spec">
-
                 <tr>
-                    <td><a href="/appointments?spec=${spec.id}">${spec.user.fullName}</a></td>
-                    <td><fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(0).workStarts}"/>
-                        -
-                        <fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(0).workEnds}"/></td>
-                    <td><fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(1).workStarts}"/>
-                        -
-                        <fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(1).workEnds}"/></td>
-                    <td><fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(2).workStarts}"/>
-                        -
-                        <fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(2).workEnds}"/></td>
-                    <td><fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(3).workStarts}"/>
-                        -
-                        <fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(3).workEnds}"/></td>
-                    <td><fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(4).workStarts}"/>
-                        -
-                        <fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(4).workEnds}"/></td>
-                    <td><fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(5).workStarts}"/>
-                        -
-                        <fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(5).workEnds}"/></td>
-                    <td><fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(6).workStarts}"/>
-                        -
-                        <fmt:formatDate pattern="HH:mm" type="time"
-                                        value="${spec.timetable.timetables.get(6).workEnds}"/></td>
+                    <td>${spec.user.fullName}</td>
+                    <c:forEach items="${spec.timetable.timetables}" var="timetable">
+                        <td>
+                            <fmt:formatDate pattern="HH:mm" type="time" value="${timetable.workStarts}"/>
+                            -
+                            <fmt:formatDate pattern="HH:mm" type="time" value="${timetable.workEnds}"/>
+                        </td>
+                    </c:forEach>
                 </tr>
             </c:forEach>
             </tbody>

@@ -12,4 +12,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface DepartmentService extends GenericService<Department, Integer> {
+
+    Department getByName(String name);
+
 }

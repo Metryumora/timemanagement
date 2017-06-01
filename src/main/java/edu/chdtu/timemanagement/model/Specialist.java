@@ -1,5 +1,6 @@
 package edu.chdtu.timemanagement.model;
 
+import edu.chdtu.timemanagement.util.DateConverter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
@@ -40,6 +41,52 @@ public class Specialist {
         this.specialization = specialization;
         this.department = department;
         this.timetable = timetable;
+    }
+
+    public ArrayList<Appointment> getWeeklyAppointmentsSchema(Date firstDayDate) {
+        ArrayList<Appointment> result = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(firstDayDate);
+        calendar.getTime().setDate(calendar.getTime().getDay() - DateConverter.getDayOfWeek(calendar));
+        Date dayStart = calendar.getTime();
+        calendar.setTime(dayStart);
+        for (int i = 0; i < 7; i++) {
+            result.addAll(getDailyAppointmentsSchema(calendar.getTime()));
+            calendar.getTime().setDate(calendar.getTime().getDay() + 1);
+        }
+        return result;
+    }
+
+    public ArrayList<Appointment> getDailyAppointmentsSchema(Date date) {
+        ArrayList<Appointment> result = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        DailyTimetable todaysTimetable = getTodaysTimetable();
+        Date workEnds = (Date) date.clone();
+        Date appointmentDateAndTime = (Date) date.clone();
+        Date breakStarts = (Date) date.clone();
+        breakStarts.setHours(todaysTimetable.getBreakStarts().getHours());
+        breakStarts.setMinutes(todaysTimetable.getBreakStarts().getMinutes() - 1);
+        Date breakEnds = (Date) date.clone();
+        breakEnds.setHours(todaysTimetable.getBreakEnds().getHours());
+        breakEnds.setMinutes(todaysTimetable.getBreakEnds().getMinutes() - 1);
+
+        workEnds.setHours(todaysTimetable.getWorkEnds().getHours());
+        workEnds.setMinutes(todaysTimetable.getWorkEnds().getMinutes());
+
+
+        appointmentDateAndTime.setHours(todaysTimetable.getWorkStarts().getHours());
+        appointmentDateAndTime.setMinutes(todaysTimetable.getWorkStarts().getMinutes());
+
+        while (appointmentDateAndTime.before(workEnds)) {
+            if (appointmentDateAndTime.after(breakStarts) && appointmentDateAndTime.before(breakEnds)) {
+                appointmentDateAndTime.setTime(appointmentDateAndTime.getTime() + todaysTimetable.getTimeForAppointment().getMinutes() * 60000);
+                continue;
+            }
+            result.add(new Appointment(null, this, (Date) appointmentDateAndTime.clone()));
+            appointmentDateAndTime.setTime(appointmentDateAndTime.getTime() + todaysTimetable.getTimeForAppointment().getMinutes() * 60000);
+        }
+        return result;
     }
 
     public Set<Appointment> getAppointments() {

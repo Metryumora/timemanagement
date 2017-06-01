@@ -44,7 +44,6 @@ public class TimetableTest {
 
         Assert.assertEquals(timetables.get(0), timetable.getSpecificDayTimetable(DayOfWeek.MONDAY));
         Assert.assertEquals(timetables.get(6), timetable.getSpecificDayTimetable(DayOfWeek.SUNDAY));
-
         //
         //Assert.assertEquals(timetables.get(6), timetable.getHodiernalTimetable());
     }

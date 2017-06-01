@@ -1,11 +1,14 @@
 package edu.chdtu.timemanagement.model;
 
 import javax.persistence.*;
+import java.util.ArrayList;
+import java.util.Calendar;
 import java.util.Date;
 
 /**
  * Created by Metr_yumora on 20.03.2017.
  */
+
 @Entity
 public class Appointment {
 
@@ -31,7 +34,6 @@ public class Appointment {
         this.specialist = specialist;
         this.dateAndTime = dateAndTime;
     }
-
 
     public Integer getId() {
         return id;
