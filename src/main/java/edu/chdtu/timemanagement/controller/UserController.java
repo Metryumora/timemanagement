@@ -39,15 +39,8 @@ public class UserController {
     @Autowired
     private SpecialistService specialistService;
 
-    @RequestMapping(value = "/", method = {RequestMethod.GET})
-    public ModelAndView home(ModelMap modelMap) {
-        modelMap.addAttribute("currentUser", securityService.findLoggedInUser());
-        List<Appointment> appointments = specialistService.get(1).getWeeklyAppointmentsSchema(new Date());
-        return new ModelAndView("index");
-    }
-
     @RequestMapping(value = "/registration", method = RequestMethod.POST)
-    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult, Model model) {
+    public String registration(@ModelAttribute("userForm") User userForm, BindingResult bindingResult) {
         userValidator.validate(userForm, bindingResult);
 
         if (bindingResult.hasErrors()) {

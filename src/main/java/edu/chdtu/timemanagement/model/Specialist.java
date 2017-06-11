@@ -61,7 +61,10 @@ public class Specialist {
         ArrayList<Appointment> result = new ArrayList<>();
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
-        DailyTimetable todaysTimetable = getTodaysTimetable();
+        DailyTimetable todaysTimetable = timetable.getSpecificDayTimetable(calendar);
+        if (todaysTimetable.getNotes().equalsIgnoreCase("Weekend")) {
+            return null;
+        }
         Date workEnds = (Date) date.clone();
         Date appointmentDateAndTime = (Date) date.clone();
         Date breakStarts = (Date) date.clone();

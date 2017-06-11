@@ -5,6 +5,7 @@ import edu.chdtu.timemanagement.model.Department;
 import edu.chdtu.timemanagement.model.Organisation;
 import edu.chdtu.timemanagement.model.Specialist;
 import edu.chdtu.timemanagement.service.*;
+import edu.chdtu.timemanagement.util.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
 import org.springframework.stereotype.Controller;
@@ -57,10 +58,10 @@ public class TimetableController {
         modelMap.addAttribute("departments", departments);
     }
 
-    @RequestMapping(value = "/organisations", method = {RequestMethod.GET})
+    @RequestMapping(value = "/", method = {RequestMethod.GET})
     public ModelAndView loadOrganisations(ModelMap modelMap) {
         getAndAddOrganisations(modelMap);
-        return getModelAndViewForCurrentUser("timetable", modelMap);
+        return getModelAndViewForCurrentUser("index", modelMap);
     }
 
     @RequestMapping(value = "/departments", method = {RequestMethod.POST})
@@ -69,7 +70,7 @@ public class TimetableController {
         getAndAddOrganisations(modelMap);
         getAndAddDepartments(modelMap, selectedOrganisationId);
         modelMap.addAttribute("selectedOrganisation", selectedOrganisationId);
-        return getModelAndViewForCurrentUser("timetable", modelMap);
+        return getModelAndViewForCurrentUser("index", modelMap);
     }
 
     @RequestMapping(value = "/specialists", method = {RequestMethod.POST})
@@ -83,41 +84,94 @@ public class TimetableController {
         modelMap.addAttribute("selectedDepartment", selectedDepartmentId);
         modelMap.addAttribute("specialists", specialists);
 
-        return getModelAndViewForCurrentUser("timetable", modelMap);
+        modelMap.addAttribute("fieldName", "appointmentDate");
+        modelMap.addAttribute("appointmentDate", DateConverter.formatDate(new Date(), "yyyy-MM-dd"));
+
+        return getModelAndViewForCurrentUser("index", modelMap);
     }
 
     @RequestMapping(value = "/appointments", method = {RequestMethod.POST})
-    public ModelAndView showAppointments(ModelMap modelMap,
+    public ModelAndView loadAppointments(ModelMap modelMap,
                                          @RequestParam("selectedOrganisation") Integer selectedOrganisationId,
                                          @RequestParam("selectedDepartment") Integer selectedDepartmentId,
-                                         @RequestParam("selectedSpecialist") Integer selectedSpecialistId) {
+                                         @RequestParam("selectedSpecialist") Integer selectedSpecialistId,
+                                         @RequestParam("appointmentDate") String rawDate) {
         getAndAddOrganisations(modelMap);
         getAndAddDepartments(modelMap, selectedOrganisationId);
         Set<Specialist> specialists = departmentService.get(selectedDepartmentId).getSpecialists();
         modelMap.addAttribute("specialists", specialists);
 
         Specialist specialist = specialistService.get(selectedSpecialistId);
-        ArrayList<Appointment> appointmentsSchema = specialist.getDailyAppointmentsSchema(new Date());
-        ArrayList<Appointment> appointments = (ArrayList<Appointment>) appointmentService.get(new Date(), specialist);
-        int lastIndex = 0;
-        for (Appointment appointment :
-                appointments) {
-            for (int i = lastIndex; i < appointmentsSchema.size(); i++) {
-                if (appointment.getDateAndTime().getHours() == appointmentsSchema.get(i).getDateAndTime().getHours()
-                        && appointment.getDateAndTime().getMinutes() == appointmentsSchema.get(i).getDateAndTime().getMinutes()) {
-                    appointmentsSchema.remove(i);
-                    appointmentsSchema.add(i, appointment);
-                    lastIndex = i;
-                    break;
+        Date date = new Date();
+        if (rawDate != null) {
+            date = DateConverter.parseDate(rawDate, "yyyy-MM-dd");
+        }
+        ArrayList<Appointment> appointmentsSchema = specialist.getDailyAppointmentsSchema(date);
+        if (appointmentsSchema != null) {
+            ArrayList<Appointment> appointments = (ArrayList<Appointment>) appointmentService.get(date, specialist);
+            int lastIndex = 0;
+            for (Appointment appointment :
+                    appointments) {
+                for (int i = lastIndex; i < appointmentsSchema.size(); i++) {
+                    if (appointment.getDateAndTime().getTime() == appointmentsSchema.get(i).getDateAndTime().getTime()) {
+                        appointmentsSchema.remove(i);
+                        appointmentsSchema.add(i, appointment);
+                        lastIndex = i;
+                        break;
+                    }
                 }
+            }
+            Date now = new Date();
+            for (int i = 0; i < appointmentsSchema.size(); ) {
+                if (appointmentsSchema.get(i).getDateAndTime().before(now)) {
+                    appointmentsSchema.remove(i);
+                    continue;
+                }
+                i++;
             }
         }
         modelMap.addAttribute("selectedOrganisation", selectedOrganisationId);
         modelMap.addAttribute("selectedDepartment", selectedDepartmentId);
         modelMap.addAttribute("selectedSpecialist", selectedSpecialistId);
+        modelMap.addAttribute("specialist", specialist);
         modelMap.addAttribute("appointments", appointmentsSchema);
-        return getModelAndViewForCurrentUser("timetable", modelMap);
+        modelMap.addAttribute("fieldName", "#");
+        modelMap.addAttribute("appointmentsSend", true);
+        if (appointmentsSchema != null) {
+            modelMap.addAttribute("appointmentPlace",
+                    specialist
+                            .getTimetable()
+                            .getSpecificDayTimetable(date)
+                            .getPlace());
+        }
+        modelMap.addAttribute("appointmentDate", DateConverter.formatDate(date, "yyyy-MM-dd"));
+        return getModelAndViewForCurrentUser("index", modelMap);
+    }
+
+    @RequestMapping(value = "/arrange", method = {RequestMethod.POST})
+    public ModelAndView arrangeAppointment(ModelMap modelMap,
+                                           @RequestParam("appointmentDate") String date,
+                                           @RequestParam("appointmentTime") String time,
+                                           @RequestParam("selectedSpecialist") Integer selectedSpecialistId) {
+        appointmentService.add(new Appointment(securityService.findLoggedInUser(),
+                specialistService.get(selectedSpecialistId),
+                DateConverter.parseDate(date + " " + time, "yyyy-MM-dd HH:mm")
+        ));
+
+        return getModelAndViewForCurrentUser("redirect:/appointments", modelMap);
     }
 
 
+    @RequestMapping(value = "/appointments", method = {RequestMethod.GET})
+    public ModelAndView showUsersAppointments(ModelMap modelMap) {
+        List<Appointment> appointments = securityService.findLoggedInUser().getUnexpiredAppointments();
+        modelMap.addAttribute("appointments", appointments);
+        return getModelAndViewForCurrentUser("appointments", modelMap);
+    }
+
+    @RequestMapping(value = "/cancel", method = {RequestMethod.POST})
+    public String showUsersAppointments(@RequestParam("appointmentId") Integer appointmentId) {
+        appointmentService.remove(appointmentService.get(appointmentId));
+        return "redirect:/appointments";
+    }
 }

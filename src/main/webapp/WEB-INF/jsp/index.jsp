@@ -1,32 +1,21 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
 <%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <%@ taglib prefix="spring" uri="http://www.springframework.org/tags" %>
+<%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
 <head>
     <title>Time-management: Home</title>
+    <link rel="stylesheet" href="/fonts/font-awesome.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 
-    <%--<link rel="stylesheet" href="/static/css/bootstrap/css/bootstrap.min.css">--%>
-    <%--<link rel="stylesheet" href="/static/css/style.css">--%>
-    <link href="http://maxcdn.bootstrapcdn.com/font-awesome/4.2.0/css/font-awesome.min.css" rel="stylesheet">
-
-    <!--This is background-->
-    <link rel="stylesheet" media="all"
-          href="http://xfer-assets.s3.amazonaws.com/assets/application-183db160aec9c65aee73a1cf65198f90.css"/>
-
-    <!--This is JS for header-->
-    <!--<script src="//xfer-assets.s3.amazonaws.com/assets/application-653e9726a10c9e317ffaaf9402ad69b2.js"></script>-->
-    <!--<script src="../js/jQuery JavaScript Library v1.12.1.js"></script>-->
-
-    <!--Popup links-->
-    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
-    <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
-
-    <link rel="stylesheet" href="/css/style.css">
-    <link>
-
+    <script src="/js/jquery.min.js"></script>
+    <script src="/js/bootstrap.min.js"></script>
+    <script src="/js/formSubmitter.js"></script>
+</head>
 <body>
 
 <nav class="navbar navbar-inverse navbar-fixed-top">
@@ -44,19 +33,6 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class=""><a href="/">Time management</a></li>
-
-
-                <li class="dropdown">
-                    <a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-expanded="false">
-                        Products <span class="caret"></span>
-                    </a>
-                    <ul class="dropdown-menu" role="menu">
-                        <li class=""><a href="/organisations">Organisations</a></li>
-                        <li class=""><a href="/departments">Departments</a></li>
-                        <li class=""><a href="/specialists">Specialists</a></li>
-                    </ul>
-                </li>
-
                 <li class=""><a href="/contact">Contact</a></li>
 
             </ul>
@@ -77,13 +53,9 @@
                             Welcome, ${currentUser.fullName}! <span class="caret"></span>
                         </a>
                         <ul class="dropdown-menu" role="menu">
-                            <li class=""><a href="/#">Settings</a></li>
-                            <li class=""><a href="/#">azaza</a></li>
+                            <li class=""><a href="/appointments">My appointments</a></li>
                             <li class=""><a href="/logout">Log out</a></li>
                         </ul>
-                    </li>
-                    <li>
-                        <a href="/logout">Log out</a>
                     </li>
                 </c:if>
             </ul>
@@ -91,35 +63,148 @@
     </div>
 </nav>
 
-<!-- Content    --->
-
 <div class="index_content">
     <h2>Welcome to Time Management App :)</h2>
-    <h4>Please, <a href="/login">log in</a> or <a href="/registration">sign up</a> to arrange to appointment</h4>
+    <c:if test="${currentUser==null}">
+        <h4>Please, <a href="/login">log in</a> or <a href="/registration">sign up</a> to arrange an appointment</h4>
+    </c:if>
+    <div id="formSelect">
+        <form name="formSelectors" action="" method="post">
+            <div class="selector_wrapper">
+                <div class="selector_description">Select organisation:</div>
+                <select name="selectedOrganisation" onchange="submitForm(1)" class="selectorCustom">
+                    <c:if test="${selectedOrganisation == null}">
+                        <option selected disabled></option>
+                    </c:if>
+                    <c:forEach items="${organisations}" varStatus="loop" var="org">
+                        <option
+                                value="${org.id}"
+                                <c:if test="${org.id == selectedOrganisation}">
+                                    selected
+                                </c:if>
+                        >
+                                ${org.name}
+                        </option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="selector_wrapper">
+                <div class="selector_description">Select department:</div>
+                <select name="selectedDepartment" onchange="submitForm(2)" class="selectorCustom">
+                    <c:if test="${selectedDepartment == null}">
+                        <option selected disabled></option>
+                    </c:if>
+                    <c:forEach items="${departments}" varStatus="loop" var="dep">
+                        <option
+                                value="${dep.id}"
+                                <c:if test="${dep.id == selectedDepartment}">
+                                    selected
+                                </c:if>
+                        >
+                                ${dep.name}
+                        </option>
+                    </c:forEach>
+                </select>
+            </div>
+            <div class="selector_wrapper">
+                <div class="selector_description">Select specialist:</div>
+                <select name="selectedSpecialist" onchange="submitForm(3)" class="selectorCustom">
+                    <c:if test="${selectedSpecialist == null}">
+                        <option selected disabled></option>
+                    </c:if>
+                    <c:forEach items="${specialists}" varStatus="loop" var="spec">
+                        <option
+                                value="${spec.id}"
+                                <c:if test="${spec.id == selectedSpecialist}">
+                                    selected
+                                </c:if>
+                        >
+                                ${spec.user.fullName}
+                        </option>
+                    </c:forEach>
+                </select>
+                <input hidden type="text" name="${fieldName}" value="${appointmentDate}">
+            </div>
+            <c:if test="${appointmentsSend}">
+                <div id="appointments">
+                    <div class="selector_wrapper">
+                        Address: ${organisations.get(0).address}
+                    </div>
+                    <div class="selector_wrapper">
+                        <c:if test="${appointmentPlace!=null}">
+                            Room: ${appointmentPlace}
+                        </c:if>
+                    </div>
+                    <div class="selector_wrapper">
+                        <div class="selector_description">Select date:</div>
+                        <input type="date" name="appointmentDate" class="selectorCustom" value="${appointmentDate}"
+                               onchange="submitForm(3)">
+                    </div>
+                    <div class="selector_wrapper">
+                        <c:if test="${!empty appointments}">
+                            <div class="selector_description">Select time:</div>
 
-    <form id="form_select">
-        <div class="selector_wrapper">
-            <div class="selector_description">Select organisation:</div>
-            <select name="faculty" class="selector" onchange="do_something();">
-                <option value="0"> One</option>
-            </select>
-        </div>
-
-        <div class="selector_wrapper">
-            <div class="selector_description">Select department:</div>
-            <select name="faculty" class="selector" onchange="do_something();">
-                <option value="0"> One</option>
-            </select>
-        </div>
-
-        <div class="selector_wrapper">
-            <div class="selector_description">Select specialist:</div>
-            <select name="faculty" class="selector" onchange="do_something();">
-                <option value="0"> Oneeeeeeeeeeeeeeeeeeee</option>
-            </select>
-        </div>
-
-    </form>
+                            <select title="Select date:" class="selectorCustom" id="selectorCustomWidth"
+                                    name="appointmentTime">
+                                <c:forEach items="${appointments}" var="appointment">
+                                    <c:if test="${appointment.client == null}">
+                                        <option>
+                                            <fmt:formatDate pattern="HH:mm" type="time"
+                                                            value="${appointment.dateAndTime}"/>
+                                        </option>
+                                    </c:if>
+                                </c:forEach>
+                            </select>
+                        </c:if>
+                        <c:if test="${empty appointments}">
+                            <p>${specialist.user.fullName} has a weekend today or is busy for whole day already.
+                                Please, check timetable and look for the other day.
+                            </p>
+                        </c:if>
+                    </div>
+                </div>
+                <c:if test="${currentUser!=null && !empty appointments}">
+                    <div class="selector_wrapper">
+                        <button onclick="submitForm(4)">Arrange</button>
+                    </div>
+                </c:if>
+            </c:if>
+        </form>
+    </div>
 </div>
+
+<c:if test="${!empty specialists && empty appointments}">
+    <div class="selector_wrapper">
+        <h3 id="timetableHeader">Timetable</h3>
+        <table id="timetable">
+            <tbody>
+            <tr>
+                <th>Name</th>
+                <th>Specialization</th>
+                <th>Monday</th>
+                <th>Tuesday</th>
+                <th>Wednesday</th>
+                <th>Thursday</th>
+                <th>Friday</th>
+                <th>Saturday</th>
+                <th>Sunday</th>
+            </tr>
+            <c:forEach items="${specialists}" var="spec">
+                <tr>
+                    <td>${spec.user.fullName}</td>
+                    <td>${spec.specialization}</td>
+                    <c:forEach items="${spec.timetable.timetables}" var="timetable">
+                        <td>
+                            <fmt:formatDate pattern="HH:mm" type="time" value="${timetable.workStarts}"/>
+                            -
+                            <fmt:formatDate pattern="HH:mm" type="time" value="${timetable.workEnds}"/>
+                        </td>
+                    </c:forEach>
+                </tr>
+            </c:forEach>
+            </tbody>
+        </table>
+    </div>
+</c:if>
 </body>
 </html>

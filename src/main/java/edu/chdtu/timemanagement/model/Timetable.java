@@ -4,12 +4,8 @@ import edu.chdtu.timemanagement.util.DateConverter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
-import java.sql.Date;
 import java.time.DayOfWeek;
-import java.util.ArrayList;
-import java.util.Calendar;
-import java.util.GregorianCalendar;
-import java.util.List;
+import java.util.*;
 
 /**
  * Created by Metr_yumora on 23.03.2017.
@@ -44,11 +40,23 @@ public class Timetable {
     }
 
     public DailyTimetable getSpecificDayTimetable(DayOfWeek dayOfWeek) {
-        return timetables.get(DateConverter.getDayOfWeek(dayOfWeek));
+        try {
+            return timetables.get(DateConverter.getDayOfWeek(dayOfWeek));
+        } catch (Exception e) {
+            return null;
+        }
+    }
+
+    public DailyTimetable getSpecificDayTimetable(Date date){
+        return timetables.get(DateConverter.getDayOfWeek(date));
     }
 
     public DailyTimetable getSpecificDayTimetable(Calendar calendar) {
-        return timetables.get(DateConverter.getDayOfWeek(calendar));
+        try {
+            return timetables.get(DateConverter.getDayOfWeek(calendar));
+        } catch (Exception e) {
+            return null;
+        }
     }
 
     public DailyTimetable getHodiernalTimetable() {

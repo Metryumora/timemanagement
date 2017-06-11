@@ -1,8 +1,6 @@
 package edu.chdtu.timemanagement.model;
 
 import javax.persistence.*;
-import java.util.ArrayList;
-import java.util.Calendar;
 import java.util.Date;
 
 /**
@@ -10,7 +8,7 @@ import java.util.Date;
  */
 
 @Entity
-public class Appointment {
+public class Appointment implements Comparable {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
@@ -33,6 +31,12 @@ public class Appointment {
         this.client = client;
         this.specialist = specialist;
         this.dateAndTime = dateAndTime;
+    }
+
+    @Override
+    public int compareTo(Object o) {
+        Appointment other = (Appointment) o;
+        return this.getDateAndTime().before(other.dateAndTime) ? -1 : 1;
     }
 
     public Integer getId() {
@@ -66,4 +70,6 @@ public class Appointment {
     public void setDateAndTime(Date dateAndTime) {
         this.dateAndTime = dateAndTime;
     }
+
+
 }

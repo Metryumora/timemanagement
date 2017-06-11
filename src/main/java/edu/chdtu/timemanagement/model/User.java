@@ -1,10 +1,10 @@
 package edu.chdtu.timemanagement.model;
 
 import org.hibernate.validator.constraints.NotEmpty;
+import org.springframework.security.crypto.bcrypt.BCrypt;
 
 import javax.persistence.*;
-import java.util.HashSet;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Metr_yumora on 20.03.2017.
@@ -35,6 +35,10 @@ public class User {
     @NotEmpty
     private String phone;
 
+    @OneToMany(targetEntity = Appointment.class)
+    @JoinColumn(name = "client_id")
+    private Set<Appointment> appointments = new HashSet<>();
+
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -45,16 +49,31 @@ public class User {
 
     public User(String email, String password, String fullName, String phone) {
         this.email = email;
+        this.password = BCrypt.hashpw(password, BCrypt.gensalt());
         this.fullName = fullName;
         this.phone = phone;
-        this.password = password;
     }
 
-    public User(String email, String password, String fullName, String phone, Set<Role> roles) {
-        this.email = email;
-        this.fullName = fullName;
-        this.phone = phone;
-        this.roles.addAll(roles);
+    public List<Appointment> getUnexpiredAppointments() {
+        Date now = new Date();
+        ArrayList<Appointment> result = new ArrayList<>();
+        for (Appointment a :
+                getAppointments()) {
+            if (a.getDateAndTime().after(now)) {
+                result.add(a);
+            }
+        }
+        Collections.sort(result);
+        return result;
+    }
+
+
+    public Set<Appointment> getAppointments() {
+        return appointments;
+    }
+
+    public void setAppointments(Set<Appointment> appointments) {
+        this.appointments = appointments;
     }
 
     public String getConfirmPassword() {

@@ -38,7 +38,6 @@ public class DailyTimetable {
 
     //The place of appointment like an address
     @Column
-    @NotEmpty
     private String place;
 
     //Notes from specialist about this day's appointments

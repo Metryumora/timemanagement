@@ -17,6 +17,10 @@ function submitForm(num) {
             form.action = "/appointments";
             break
         }
+        case 4: {
+            form.action = "/arrange";
+            break
+        }
     }
     form.submit()
 }

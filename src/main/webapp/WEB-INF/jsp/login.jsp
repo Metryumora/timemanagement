@@ -18,14 +18,42 @@
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
-
-    <script src="http://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
-    <script src="http://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
-
 </head>
 
 <body>
+<nav class="navbar navbar-inverse navbar-fixed-top">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" class="navbar-toggle collapsed" data-toggle="collapse"
+                    data-target="#navbar" aria-expanded="false" aria-controls="navbar">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+        </div>
 
+        <div id="navbar" class="navbar-collapse collapse">
+            <ul class="nav navbar-nav">
+                <li class=""><a href="/">Time management</a></li>
+                <li class=""><a href="/contact">Contact</a></li>
+
+            </ul>
+
+            <!-- right side -->
+            <ul class="nav navbar-nav navbar-right">
+                <c:if test="${currentUser==null}">
+                    <li>
+                        <a href="/login">Log in</a>
+                    </li>
+                    <li>
+                        <a href="/registration">Sign up</a>
+                    </li>
+                </c:if>
+            </ul>
+        </div>
+    </div>
+</nav>
 <div class="container">
 
     <form method="post" action="/login" class="form-signin" name="formLogin">
