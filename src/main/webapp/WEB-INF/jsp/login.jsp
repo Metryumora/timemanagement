@@ -14,13 +14,15 @@
     <meta name="description" content="">
     <meta name="author" content="">
 
-    <title>Log in with your account</title>
+    <title>Time-management: Log in to your account</title>
 
     <link href="/css/bootstrap.min.css" rel="stylesheet">
     <link href="/css/common.css" rel="stylesheet">
+    <link rel="stylesheet" href="/css/style.css" type="text/css">
 </head>
 
 <body>
+
 <nav class="navbar navbar-inverse navbar-fixed-top">
     <div class="container">
         <div class="navbar-header">
@@ -54,7 +56,8 @@
         </div>
     </div>
 </nav>
-<div class="container">
+
+<div class="index_content">
 
     <form method="post" action="/login" class="form-signin" name="formLogin">
         <h2 class="form-heading">Log in</h2>
