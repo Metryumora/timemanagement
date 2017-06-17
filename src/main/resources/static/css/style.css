@@ -100,7 +100,7 @@ h2 {
     transition: border-color ease-in-out 0.15s, box-shadow ease-in-out 0.15s;
 }
 
-#timetable {
+.customTable {
     font-size: 14px;
     margin: auto;
     border: 2px solid black;
@@ -124,7 +124,7 @@ td, th {
     color: #555555;
 }
 
-#timetableHeader {
+.tableHeader {
     text-align: center;
 }
 

@@ -1,6 +1,7 @@
 package edu.chdtu.timemanagement.service;
 
 import edu.chdtu.timemanagement.model.Specialist;
+import edu.chdtu.timemanagement.model.User;
 import org.springframework.stereotype.Repository;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -12,4 +13,7 @@ import org.springframework.transaction.annotation.Transactional;
 @Repository
 @Transactional
 public interface SpecialistService extends GenericService<Specialist, Integer> {
+
+    Specialist getByUser(User user);
+
 }

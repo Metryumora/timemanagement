@@ -55,6 +55,7 @@ public class Test {
     public ModelAndView test(ModelMap modelMap) {
         Role role1 = new Role("ROLE_USER");
         Role role2 = new Role("ROLE_ADMIN");
+        Role role3 = new Role("ROLE_SPECIALIST");
         roleService.add(role1);
         roleService.add(role2);
         User admin = new User("metryumora@gmail.com", "password", "Валентин Тулуб", "+380671841877");

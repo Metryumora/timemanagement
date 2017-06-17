@@ -115,7 +115,7 @@ public class TimetableController {
                 for (int i = lastIndex; i < appointmentsSchema.size(); i++) {
                     if (appointment.getDateAndTime().getTime() == appointmentsSchema.get(i).getDateAndTime().getTime()) {
                         appointmentsSchema.remove(i);
-                        appointmentsSchema.add(i, appointment);
+                        //appointmentsSchema.add(i, appointment);
                         lastIndex = i;
                         break;
                     }
@@ -174,4 +174,7 @@ public class TimetableController {
         appointmentService.remove(appointmentService.get(appointmentId));
         return "redirect:/appointments";
     }
+
+
+
 }

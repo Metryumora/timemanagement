@@ -29,7 +29,6 @@ public class UserDaoImpl extends GenericDaoImpl<User, Integer> implements UserDa
     @Transactional(noRollbackFor = Exception.class, readOnly = true)
     public User getByEmail(String email) {
         String fieldName = "email";
-
         CriteriaBuilder cb = entityManager.getCriteriaBuilder();
         CriteriaQuery<User> query = cb.createQuery(User.class);
         Root<User> user = query.from(User.class);

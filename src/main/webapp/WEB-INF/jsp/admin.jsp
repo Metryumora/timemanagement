@@ -8,7 +8,7 @@
 <!DOCTYPE html>
 <html lang="en">
 <head>
-    <title>Time-management: Home</title>
+    <title>Time-management: Admin Page</title>
     <link rel="stylesheet" href="/fonts/font-awesome.min.css" type="text/css">
     <%--<link rel="stylesheet" href="/css/bootstrap.min.css" type="text/css">--%>
 

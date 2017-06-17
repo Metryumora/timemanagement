@@ -4,6 +4,8 @@ import edu.chdtu.timemanagement.util.DateConverter;
 import org.hibernate.validator.constraints.NotEmpty;
 
 import javax.persistence.*;
+import java.text.DateFormat;
+import java.text.SimpleDateFormat;
 import java.util.*;
 
 /**
@@ -16,7 +18,7 @@ public class Specialist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private int id;
 
-    @ManyToOne(targetEntity = User.class)
+    @OneToOne(targetEntity = User.class)
     private User user;
 
     @NotEmpty
@@ -41,6 +43,27 @@ public class Specialist {
         this.specialization = specialization;
         this.department = department;
         this.timetable = timetable;
+    }
+
+    public ArrayList<Appointment> getDailyAppointments(Date date) {
+        if (date == null){
+            date = new Date();
+        }
+        ArrayList<Appointment> result = new ArrayList<>();
+        Calendar calendar = Calendar.getInstance();
+        calendar.setTime(date);
+        DailyTimetable todaysTimetable = timetable.getSpecificDayTimetable(calendar);
+        if (todaysTimetable.getNotes().equalsIgnoreCase("Weekend")) {
+            return null;
+        }
+        DateFormat dateFormat = new SimpleDateFormat("yyyy-MM-dd");
+        for (Appointment app :
+                appointments) {
+            if (dateFormat.format(app.getDateAndTime()).equals(dateFormat.format(date))) {
+                result.add(app);
+            }
+        }
+        return result;
     }
 
     public ArrayList<Appointment> getWeeklyAppointmentsSchema(Date firstDayDate) {

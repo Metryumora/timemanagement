@@ -36,8 +36,6 @@
         <div id="navbar" class="navbar-collapse collapse">
             <ul class="nav navbar-nav">
                 <li class=""><a href="/">Time management</a></li>
-                <li class=""><a href="/contact">Contact</a></li>
-
             </ul>
 
             <!-- right side -->

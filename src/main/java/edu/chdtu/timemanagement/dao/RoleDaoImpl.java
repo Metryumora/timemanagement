@@ -1,8 +1,13 @@
 package edu.chdtu.timemanagement.dao;
 
 import edu.chdtu.timemanagement.model.Role;
+import edu.chdtu.timemanagement.model.User;
 import org.springframework.stereotype.Repository;
 
+import javax.persistence.TypedQuery;
+import javax.persistence.criteria.CriteriaBuilder;
+import javax.persistence.criteria.CriteriaQuery;
+import javax.persistence.criteria.Root;
 import javax.transaction.Transactional;
 
 /**
@@ -10,5 +15,15 @@ import javax.transaction.Transactional;
  */
 @Repository
 @Transactional
-public class RoleDaoImpl extends GenericDaoImpl<Role, Integer> implements RoleDao{
+public class RoleDaoImpl extends GenericDaoImpl<Role, Integer> implements RoleDao {
+
+    @Override
+    public Role find(String name) {
+        CriteriaBuilder cb = entityManager.getCriteriaBuilder();
+        CriteriaQuery<Role> query = cb.createQuery(Role.class);
+        Root<Role> role = query.from(Role.class);
+        query.select(role).where(cb.equal(role.get("name"), name));
+        TypedQuery<Role> typedQuery = entityManager.createQuery(query);
+        return typedQuery.getSingleResult();
+    }
 }

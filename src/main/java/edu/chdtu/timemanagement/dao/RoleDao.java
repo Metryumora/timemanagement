@@ -7,4 +7,6 @@ import edu.chdtu.timemanagement.model.Role;
  */
 public interface RoleDao extends GenericDao<Role, Integer> {
 
+    Role find(String name);
+
 }
