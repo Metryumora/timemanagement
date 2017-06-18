@@ -90,7 +90,7 @@
                     <form action="/cancel" method="post" id="cancelForm${app.id}">
                         <input type="text" hidden value="${app.id}" name="appointmentId">
                         <td onclick="document.getElementById('cancelForm${app.id}').submit();">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
+                            <button class="btn btn-lg btn-primary cancel">Cancel</button>
                         </td>
                     </form>
                 </tr>

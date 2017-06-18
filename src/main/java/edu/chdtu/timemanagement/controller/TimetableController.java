@@ -132,10 +132,8 @@ public class TimetableController {
                             .getSpecificDayTimetable(date)
                             .getPlace());
         }
-        if (appointmentsSchema == null) {
-            ArrayList<ArrayList<CalendarCell>> monthlyAppointmentsSchema = specialist.getMonthlyAppointmentsCalendar(date);
-            modelMap.addAttribute("monthlyAppointments", monthlyAppointmentsSchema);
-        }
+        ArrayList<ArrayList<CalendarCell>> monthlyAppointmentsSchema = specialist.getMonthlyAppointmentsCalendar(date);
+        modelMap.addAttribute("monthlyAppointments", monthlyAppointmentsSchema);
         modelMap.addAttribute("appointmentDate", DateConverter.formatDate(date, "yyyy-MM-dd"));
         return getModelAndViewForCurrentUser("index", modelMap);
     }

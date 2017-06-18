@@ -76,6 +76,24 @@
 <form>
     <div class="index_content">
         <div class="selector_wrapper">
+            <form action="/addOrganisation" method="post">
+                <div class="selector_wrapper">
+                    <div class="selector_description">Name:</div>
+                    <input type="text" required name="inputOrganisationName">
+                </div>
+                <div class="selector_wrapper">
+                    <div class="selector_description">Address:</div>
+                    <input type="text" required name="inputOrganisationAddress">
+
+                </div>
+                <div class="selector_wrapper">
+                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Add Organisation">
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="index_content">
+        <div class="selector_wrapper">
             <div class="selector_description">Select organisation:</div>
             <select class="selectorCustom">
                 <c:forEach var="org" items="${organisations}">
@@ -93,22 +111,15 @@
                 </c:forEach>
             </select>
         </div>
-        <div class="selector_wrapper">
-            <form action="/addOrganisation" method="post" name="formOrganisation">
-                <div class="selector_wrapper">
-                    <div class="selector_description">Name:</div>
-                    <input type="text" required name="inputOrganisationName">
-                </div>
-                <div class="selector_wrapper">
-                    <div class="selector_description">Address:</div>
-                    <input type="text" required name="inputOrganisationAddress">
-
-                </div>
-                <div class="selector_wrapper">
-                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Add Organisation">
-                </div>
-            </form>
-        </div>
+        <form action="/addDepartment" method="post">
+            <div class="selector_wrapper">
+                <div class="selector_description">Name:</div>
+                <input type="text" required name="inputDepartmentName">
+            </div>
+            <div class="selector_wrapper">
+                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Add Department">
+            </div>
+        </form>
     </div>
     <div class="index_content">
         <div class="selector_wrapper">
@@ -129,17 +140,6 @@
                 </c:forEach>
             </select>
         </div>
-        <form action="/addDepartment" method="post">
-            <div class="selector_wrapper">
-                <div class="selector_description">Name:</div>
-                <input type="text" required name="inputDepartmentName">
-            </div>
-            <div class="selector_wrapper">
-                <input type="submit" class="btn btn-lg btn-primary btn-block" value="Add Department">
-            </div>
-        </form>
-    </div>
-    <div class="index_content">
         <div class="selector_wrapper">
             <div class="selector_description">Select specialist:</div>
             <select class="selectorCustom">

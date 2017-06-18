@@ -44,9 +44,9 @@
                     <sec:authorize access="hasRole('ROLE_SPECIALIST')">
                         <li class=""><a href="/timetable">My timetable</a></li>
                     </sec:authorize>
-                    <sec:authorize access="hasRole('ROLE_ADMIN')">
-                        <li class=""><a href="/admin">Administration</a></li>
-                    </sec:authorize>
+                    <%--<sec:authorize access="hasRole('ROLE_ADMIN')">--%>
+                        <%--<li class=""><a href="/admin">Administration</a></li>--%>
+                    <%--</sec:authorize>--%>
                 </ul>
 
                 <!-- right side -->
@@ -199,7 +199,6 @@
                     <div class="selector_wrapper">
                         <c:if test="${!empty appointments}">
                             <div class="selector_description">Select time:</div>
-
                             <select title="Select date:" class="selectorCustom" id="selectorCustomWidth"
                                     name="appointmentTime">
                                 <c:forEach items="${appointments}" var="appointment">
@@ -228,7 +227,7 @@
         </form>
     </div>
 
-    <c:if test="${!empty monthlyAppointments}">
+    <c:if test="${!empty monthlyAppointments && empty appointments}">
         <div class="selector_wrapper">
             <table class="customTable">
                 <tbody>

@@ -133,8 +133,12 @@ td, th {
 }
 
 .yellowCell{
-
     background-color: yellow;
+}
+
+.cancel {
+    padding: 2px;
+    background-color: #870000;
 }
 
 

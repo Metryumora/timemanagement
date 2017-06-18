@@ -16,14 +16,11 @@ import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.ModelMap;
 import org.springframework.validation.BindingResult;
-import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import javax.persistence.criteria.CriteriaBuilder;
-import java.util.List;
 import java.util.Set;
 
 /**
@@ -75,13 +72,13 @@ public class AdminController {
     }
 
     @RequestMapping(value = "/addOrganisation", method = RequestMethod.POST)
-    public String addOrganisation(@ModelAttribute("formOrganisation") Organisation newOrganisation,
-                               BindingResult bindingResult) {
-        organisationValidator.validate(newOrganisation, bindingResult);
-        if (bindingResult.hasErrors()) {
-            return "redirect:/admin";
-        }
-        newOrganisation.setAdmin(securityService.findLoggedInUser());
+    public String addOrganisation(@RequestParam(name = "inputOrganisationName") String orgName,
+                                  @RequestParam(name = "inputOrganisationAddress") String orgAddress) {
+        Organisation newOrganisation = new Organisation(orgName, orgAddress, securityService.findLoggedInUser());
+//        organisationValidator.validate(newOrganisation, bindingResult);
+//        if (bindingResult.hasErrors()) {
+//            return "redirect:/admin";
+//        }
         organisationService.add(newOrganisation);
         return "redirect:/admin";
     }
