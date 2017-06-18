@@ -12,10 +12,6 @@ import java.util.Date;
  */
 public class DateConverter {
 
-    private static final DateFormat dateFormat = new SimpleDateFormat("dd-MM-yyyy");
-
-    private static final DateFormat timeFormat = new SimpleDateFormat("HH-mm");
-
     public static Integer getDayOfWeek(Date date) {
         Calendar calendar = Calendar.getInstance();
         calendar.setTime(date);
@@ -77,19 +73,6 @@ public class DateConverter {
             default:
                 return null;
         }
-    }
-
-    public static Date mergeDateAndTime(Date date, Date time) {
-        Date result = new Date();
-        result.setTime(time.getTime());
-        result.setYear(date.getYear());
-        result.setMonth(date.getMonth());
-        result.setDate(date.getDay());
-        return result;
-    }
-
-    public static String formatDate(Date date) {
-        return dateFormat.format(date);
     }
 
     public static Date parseDate(String rawDate, String pattern) {

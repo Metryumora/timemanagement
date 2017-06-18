@@ -128,4 +128,13 @@ td, th {
     text-align: center;
 }
 
+.redCell{
+    background-color: indianred;
+}
+
+.yellowCell{
+
+    background-color: yellow;
+}
+
 

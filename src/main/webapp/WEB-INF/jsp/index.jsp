@@ -44,6 +44,9 @@
                     <sec:authorize access="hasRole('ROLE_SPECIALIST')">
                         <li class=""><a href="/timetable">My timetable</a></li>
                     </sec:authorize>
+                    <sec:authorize access="hasRole('ROLE_ADMIN')">
+                        <li class=""><a href="/admin">Administration</a></li>
+                    </sec:authorize>
                 </ul>
 
                 <!-- right side -->
@@ -225,6 +228,37 @@
         </form>
     </div>
 
+    <c:if test="${!empty monthlyAppointments}">
+        <div class="selector_wrapper">
+            <table class="customTable">
+                <tbody>
+                <tr>
+                    <th>Mon</th>
+                    <th>Tue</th>
+                    <th>Wed</th>
+                    <th>Thu</th>
+                    <th>Fri</th>
+                    <th>Sat</th>
+                    <th>Sun</th>
+                </tr>
+                <c:forEach items="${monthlyAppointments}" var="weekApps">
+                    <tr>
+                        <c:forEach items="${weekApps}" var="dayApps">
+                            <c:choose>
+                                <c:when test="${dayApps.status=='red'}">
+                                    <td class="redCell">${dayApps.day}</td>
+                                </c:when>
+                                <c:when test="${dayApps.status=='yellow'}">
+                                    <td class="yellowCell">${dayApps.day}</td>
+                                </c:when>
+                            </c:choose>
+                        </c:forEach>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
+    </c:if>
 
     <c:if test="${!empty specialists && empty appointments}">
         <div class="selector_wrapper">

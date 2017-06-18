@@ -5,6 +5,7 @@ import edu.chdtu.timemanagement.model.Organisation;
 import edu.chdtu.timemanagement.service.DepartmentService;
 import edu.chdtu.timemanagement.service.OrganisationService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Component;
 import org.springframework.validation.Errors;
 import org.springframework.validation.ValidationUtils;
 import org.springframework.validation.Validator;
@@ -12,6 +13,7 @@ import org.springframework.validation.Validator;
 /**
  * Created by Metr_yumora on 29.05.2017.
  */
+@Component
 public class DepartmentValidator implements Validator {
 
     @Autowired

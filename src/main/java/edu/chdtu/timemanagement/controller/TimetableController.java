@@ -5,6 +5,7 @@ import edu.chdtu.timemanagement.model.Department;
 import edu.chdtu.timemanagement.model.Organisation;
 import edu.chdtu.timemanagement.model.Specialist;
 import edu.chdtu.timemanagement.service.*;
+import edu.chdtu.timemanagement.util.CalendarCell;
 import edu.chdtu.timemanagement.util.DateConverter;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.EnableAutoConfiguration;
@@ -15,10 +16,7 @@ import org.springframework.web.bind.annotation.RequestMethod;
 import org.springframework.web.bind.annotation.RequestParam;
 import org.springframework.web.servlet.ModelAndView;
 
-import java.util.ArrayList;
-import java.util.Date;
-import java.util.List;
-import java.util.Set;
+import java.util.*;
 
 /**
  * Created by Metr_yumora on 15.05.2017.
@@ -30,16 +28,12 @@ public class TimetableController {
 
     @Autowired
     private AppointmentService appointmentService;
-
     @Autowired
     private DepartmentService departmentService;
-
     @Autowired
     private SpecialistService specialistService;
-
     @Autowired
     private OrganisationService organisationService;
-
     @Autowired
     private SecurityService securityService;
 
@@ -108,7 +102,9 @@ public class TimetableController {
         }
         ArrayList<Appointment> appointmentsSchema = specialist.getDailyAppointmentsSchema(date);
         if (appointmentsSchema != null) {
+            Collections.sort(appointmentsSchema);
             ArrayList<Appointment> appointments = (ArrayList<Appointment>) appointmentService.get(date, specialist);
+            Collections.sort(appointments);
             int lastIndex = 0;
             for (Appointment appointment :
                     appointments) {
@@ -120,14 +116,6 @@ public class TimetableController {
                         break;
                     }
                 }
-            }
-            Date now = new Date();
-            for (int i = 0; i < appointmentsSchema.size(); ) {
-                if (appointmentsSchema.get(i).getDateAndTime().before(now)) {
-                    appointmentsSchema.remove(i);
-                    continue;
-                }
-                i++;
             }
         }
         modelMap.addAttribute("selectedOrganisation", selectedOrganisationId);
@@ -143,6 +131,10 @@ public class TimetableController {
                             .getTimetable()
                             .getSpecificDayTimetable(date)
                             .getPlace());
+        }
+        if (appointmentsSchema == null) {
+            ArrayList<ArrayList<CalendarCell>> monthlyAppointmentsSchema = specialist.getMonthlyAppointmentsCalendar(date);
+            modelMap.addAttribute("monthlyAppointments", monthlyAppointmentsSchema);
         }
         modelMap.addAttribute("appointmentDate", DateConverter.formatDate(date, "yyyy-MM-dd"));
         return getModelAndViewForCurrentUser("index", modelMap);
@@ -174,7 +166,6 @@ public class TimetableController {
         appointmentService.remove(appointmentService.get(appointmentId));
         return "redirect:/appointments";
     }
-
 
 
 }

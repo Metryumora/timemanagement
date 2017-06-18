@@ -39,6 +39,10 @@ public class User {
     @JoinColumn(name = "client_id")
     private Set<Appointment> appointments = new HashSet<>();
 
+    @OneToMany(targetEntity = Organisation.class)
+    @JoinColumn(name = "admin_id")
+    private Set<Organisation> organisations = new HashSet<>();
+
     @ManyToMany
     @JoinTable(name = "user_roles", joinColumns = @JoinColumn(name = "user_id"),
             inverseJoinColumns = @JoinColumn(name = "role_id"))
@@ -67,6 +71,13 @@ public class User {
         return result;
     }
 
+    public Set<Organisation> getOrganisations() {
+        return organisations;
+    }
+
+    public void setOrganisations(Set<Organisation> organisations) {
+        this.organisations = organisations;
+    }
 
     public Set<Appointment> getAppointments() {
         return appointments;
