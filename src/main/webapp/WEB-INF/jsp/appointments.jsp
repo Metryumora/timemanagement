@@ -63,41 +63,46 @@
     </div>
 </nav>
 
-<div class="index_content">
-    <div class="selector_wrapper">
-        <h3 class="tableHeader">Your future appointments</h3>
-        <table class="customTable">
-            <tbody>
-            <tr>
-                <th>Name</th>
-                <th>Specialization</th>
-                <th>Date</th>
-                <th>Time</th>
-                <th>Place</th>
-                <th>Room</th>
-                <th>Notes</th>
-                <th></th>
-            </tr>
-            <c:forEach items="${appointments}" var="app">
+    <div class="index_content">
+        <c:if test="${empty appointments}">
+            <h3 class="tableHeader">You have no appointments for today.</h3>
+        </c:if>
+        <c:if test="${!empty appointments}">
+        <div class="selector_wrapper">
+            <h3 class="tableHeader">Your future appointments</h3>
+            <table class="customTable">
+                <tbody>
                 <tr>
-                    <td>${app.specialist.user.fullName}</td>
-                    <td>${app.specialist.specialization}</td>
-                    <td><fmt:formatDate pattern="dd-MM-yyyy" type="time" value="${app.dateAndTime}"/></td>
-                    <td><fmt:formatDate pattern="HH:mm" type="time" value="${app.dateAndTime}"/></td>
-                    <td>${app.specialist.department.organisation.address}</td>
-                    <td>${app.specialist.timetable.getSpecificDayTimetable(app.dateAndTime).place}</td>
-                    <td>${app.specialist.timetable.getSpecificDayTimetable(app.dateAndTime).notes}</td>
-                    <form action="/cancel" method="post" id="cancelForm${app.id}">
-                        <input type="text" hidden value="${app.id}" name="appointmentId">
-                        <td onclick="document.getElementById('cancelForm${app.id}').submit();">
-                            <button class="btn btn-lg btn-primary cancel">Cancel</button>
-                        </td>
-                    </form>
+                    <th>Name</th>
+                    <th>Specialization</th>
+                    <th>Date</th>
+                    <th>Time</th>
+                    <th>Place</th>
+                    <th>Room</th>
+                    <th>Notes</th>
+                    <th></th>
                 </tr>
-            </c:forEach>
-            </tbody>
-        </table>
+                <c:forEach items="${appointments}" var="app">
+                    <tr>
+                        <td>${app.specialist.user.fullName}</td>
+                        <td>${app.specialist.specialization}</td>
+                        <td><fmt:formatDate pattern="dd-MM-yyyy" type="time" value="${app.dateAndTime}"/></td>
+                        <td><fmt:formatDate pattern="HH:mm" type="time" value="${app.dateAndTime}"/></td>
+                        <td>${app.specialist.department.organisation.address}</td>
+                        <td>${app.specialist.timetable.getSpecificDayTimetable(app.dateAndTime).place}</td>
+                        <td>${app.specialist.timetable.getSpecificDayTimetable(app.dateAndTime).notes}</td>
+                        <form action="/cancel" method="post" id="cancelForm${app.id}">
+                            <input type="text" hidden value="${app.id}" name="appointmentId">
+                            <td onclick="document.getElementById('cancelForm${app.id}').submit();">
+                                <button class="btn btn-lg btn-primary cancel">Cancel</button>
+                            </td>
+                        </form>
+                    </tr>
+                </c:forEach>
+                </tbody>
+            </table>
+        </div>
     </div>
-</div>
+</c:if>
 </body>
 </html>
