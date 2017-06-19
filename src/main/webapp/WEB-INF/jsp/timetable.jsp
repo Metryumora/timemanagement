@@ -119,7 +119,7 @@
             </th>
             <c:forEach items="${specialist.timetable.timetables}" var="timetable">
                 <td>
-                    ${timetable.place}
+                        ${timetable.place}
                 </td>
             </c:forEach>
         </tr>
@@ -140,9 +140,8 @@
                 <th>Place</th>
                 <th>Room</th>
                 <th>Notes</th>
-                <th></th>
             </tr>
-            <c:forEach items="${specialist.getDailyAppointments(now)}" var="app">
+            <c:forEach items="${appointments}" var="app">
                 <tr>
                     <td>${app.client.fullName}</td>
                     <td><fmt:formatDate pattern="dd-MM-yyyy" type="time" value="${app.dateAndTime}"/></td>
@@ -150,12 +149,6 @@
                     <td>${app.specialist.department.organisation.address}</td>
                     <td>${app.specialist.timetable.getSpecificDayTimetable(app.dateAndTime).place}</td>
                     <td>${app.specialist.timetable.getSpecificDayTimetable(app.dateAndTime).notes}</td>
-                    <form action="/cancel" method="post" id="cancelForm${app.id}">
-                        <input type="text" hidden value="${app.id}" name="appointmentId">
-                        <td onclick="document.getElementById('cancelForm${app.id}').submit();">
-                            <span class="glyphicon glyphicon-remove" aria-hidden="true"></span>
-                        </td>
-                    </form>
                 </tr>
             </c:forEach>
             </tbody>

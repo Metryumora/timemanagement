@@ -4,6 +4,7 @@
 <%@ taglib prefix="fmt" uri="http://java.sun.com/jsp/jstl/fmt" %>
 <%@ taglib prefix="sec" uri="http://www.springframework.org/security/tags" %>
 
+
 <c:set var="contextPath" value="${pageContext.request.contextPath}"/>
 <!DOCTYPE html>
 <html lang="en">
@@ -41,9 +42,9 @@
             <div id="navbar" class="navbar-collapse collapse">
                 <ul class="nav navbar-nav">
                     <li class=""><a href="/">Time management</a></li>
-                    <sec:authorize access="hasRole('ROLE_SPECIALIST')">
+                    <sec:authorise access="hasRole('ROLE_SPECIALIST')">
                         <li class=""><a href="/timetable">My timetable</a></li>
-                    </sec:authorize>
+                    </sec:authorise>
                 </ul>
 
                 <!-- right side -->
